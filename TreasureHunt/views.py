@@ -19,7 +19,7 @@ def rules(request):
 
 def leaderboard(request):
     # No need for user authentication
-    game_users = GameUser.objects.filter(user__is_staff=True).order_by('score')
+    game_users = GameUser.objects.filter(user__is_staff=False).order_by('score')
     return render(request,'leaderboard.html',{'gameusers':game_users})
 
 def homepage_view(request):
