@@ -68,7 +68,8 @@ ROOT_URLCONF = 'TreasureHunt.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['TreasureHunt/templates'],
+        # 'DIRS': ['TreasureHunt/templates'],
+        'DIRS': ['linpaws.pythonanywhere.com/TreasureHunt/templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
