@@ -24,10 +24,14 @@
                 <tbody>
                     <tr>
                         <th scope="row">{{ gameuser.user }}</th>
-                        <td>{{ gameuser.user.first_name }}</td>
+                        <td>{{ gameuser.user.first_name }}&nbsp;{{ gameuser.user.last_name }}</td>
                         <td>{{ gameuser.level }}</td>
                         <td>{{ gameuser.score }}</td>
-                        <td>{{ gameuser.timestamp }}</td>
+                        {% if gameuser.timestamp %}
+                            <td>{{ gameuser.timestamp }}</td>
+                        {% else %}
+                        <td>--</td>
+                        {% endif %}
                     </tr>
                 </tbody>
                 {% endfor %}
