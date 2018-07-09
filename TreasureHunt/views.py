@@ -20,7 +20,13 @@ def rules(request):
 def leaderboard(request):
     # No need for user authentication
     game_users = GameUser.objects.filter(user__is_staff=False).order_by('score')
-    return render(request,'leaderboard.html',{'gameusers':game_users})
+    with_uid_game_users = []
+    for game_user in game_users:
+        with_uid_game_users.append({
+            'guser':game_user,
+            'uid':game_user.user.social_auth.get(provider='facebook').uid,
+        })
+    return render(request,'leaderboard.html',{'gameusers':with_uid_game_users})
 
 def homepage_view(request):
     if request.user.is_authenticated:

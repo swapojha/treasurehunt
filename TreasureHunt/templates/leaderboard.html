@@ -24,13 +24,13 @@
                 <tbody>
                     <tr>
                         <th scope="row">
-                            {{gameuser.user.social_auth}}
+                            <img class="img-fluid" src="https://graph.facebook.com/{{ gameuser.uid }}/picture?type=square" alt='{{ request.user.first_name }}'/>
                         </th>
-                        <td>{{ gameuser.user.first_name }}&nbsp;{{ gameuser.user.last_name }}</td>
-                        <td>{{ gameuser.level }}</td>
-                        <td>{{ gameuser.score }}</td>
-                        {% if gameuser.timestamp %}
-                            <td>{{ gameuser.timestamp }}</td>
+                        <td>{{ gameuser.guser.user.first_name }}&nbsp;{{ gameuser.guser.user.last_name }}</td>
+                        <td>{{ gameuser.guser.level }}</td>
+                        <td>{{ gameuser.guser.score }}</td>
+                        {% if gameuser.guser.timestamp %}
+                            <td>{{ gameuser.guser.timestamp }}</td>
                         {% else %}
                         <td>--</td>
                         {% endif %}
