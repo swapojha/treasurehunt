@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block content %}
+  <main role="main" class="inner cover">
+    {% if msg %}
+    <div class="alert alert-success">
+        <strong>{{msg}}</strong>
+    </div>
+    {% endif %}
+     {% if userid %}
+        <img src="https://graph.facebook.com/{{ userid }}/picture?type=square" alt='{{ request.user.first_name }}'/>
+    {% endif %}
+    <h2>Homepage</h2>
+    <p>Hello {{ request.user.first_name }}!</p>
+  </main>
+{% endblock %

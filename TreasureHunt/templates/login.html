@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <main role="main" class="inner cover">
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <div{% if message.tags %} class="alert alert-{{ message.tags }}"{% endif %}><strong>{{ message }}</strong></div>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    {% if msg %}
+    <div class="alert alert-success">
+      <strong>{{msg}}</strong>
+    </div>
+    {% endif %}
+    <h1 class="cover-heading">Treasure Hunt</h1>
+    <p class="lead">Cover is a one-page template for building simple and beautiful home pages. Download, edit the text, and add your own fullscreen background photo to make it your own.</p>
+    <p class="lead">
+      <a href="{% url 'social:begin' 'facebook' %}" class="btn btn-lg btn-secondary">Login with Facebook</a>
+    </p>
+  </main>
+{% endblock %}

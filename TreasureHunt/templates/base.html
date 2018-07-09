@@ -1,0 +1,51 @@
+<!doctype html>
+{% load static %}
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Treasure Hunt</title>
+    <!-- Bootstrap core CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="{% static 'css/base_style.css' %}" rel="stylesheet">
+  </head>
+  <body class="text-center">
+    <div class="container d-flex h-100 p-3 mx-auto flex-column">
+      <header class="masthead mb-auto">
+        <div class="inner">
+          <h3 class="masthead-brand">Treasure Hunt</h3>
+          <nav class="nav nav-masthead justify-content-center">
+            <a class="nav-link active" href="/">Home</a>
+            <a class="nav-link" href="/rules">Rules</a>
+            <a class="nav-link" href="/leaderboard">Leaderboard</a>
+            {% if request.user.is_authenticated %}
+              <div class="dropdown">
+                <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    {{ request.user.first_name }}
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                  <a class="dropdown-item" href="/logout">Logout</a>
+                </div>
+              </div>
+            {% endif %}
+          </nav>
+        </div>
+      </header>
+      {% block content %}
+      {% endblock %}
+      <footer class="mastfoot mt-auto">
+        <div class="inner">
+          <p>Treasure Hunt</p>
+        </div>
+      </footer>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    {% block custom_js %}
+    {% endblock %}
+  </body>
+</html>

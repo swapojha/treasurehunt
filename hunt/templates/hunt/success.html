@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block content %}
+  <main role="main" class="inner cover">
+    <h2>Hello {{ username }}!</h2>
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <div
+         {% if message.tags %} 
+            {% if message.tags == 'error' %} 
+                class ="alert alert-danger"  
+            {% else %} 
+                class="alert alert-{{ message.tags }}"
+            {% endif %}
+        {% endif %}><strong>{{ message }}</strong></div>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    <p>Congratulations! You have completed all levels.</p>         
+  </main>
+{% endblock %}

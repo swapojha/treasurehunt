@@ -1,0 +1,155 @@
+{% extends 'base.html' %}
+{% block content %}
+  <div class="container game-container">
+      <div class="row">
+        <div class="col-sm-12 col-md-6">
+            <h2>Hello {{ username }}!</h2>
+        </div>
+        <div class="col-sm-12 col-md-6">
+            <h3><strong>Level : </strong>{{ level }}</h3>
+        </div>
+        {% if messages %}
+        <div class="col-sm-12 col-md-12">
+            <ul class="messages">
+                {% for message in messages %}
+                <div
+                {% if message.tags %} 
+                    {% if message.tags == 'error' %} 
+                        class ="alert alert-danger"  
+                    {% else %} 
+                        class="alert alert-{{ message.tags }}"
+                    {% endif %}
+                {% endif %}><strong>{{ message }}</strong></div>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+      </div>
+    <div class="row question">
+        <div class="col-sm-12 col-md-12 center-align">
+            {% if question.ques_type == "audio" %}
+                <audio controls="controls" src="{{ question.link }}">
+                    Your browser does not support audio element.
+                </audio>
+            {% endif %}
+            {% if question.ques_type == "video" %}
+                <video controls="controls" src="{{ question.link }}">
+                    Your browser does not support video element.
+                </video>
+            {% endif %}
+            {% if question.ques_type == "image" %}
+                <img class="img-responsive" src="{{ question.link }}"/>
+            {% endif %}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12 col-md-12">
+            <form method = "POST" action = '.'>
+                {% csrf_token %}
+                <br>
+                <div class="row">
+                    <div class="col-sm-12">
+                        {{form.answer}} 
+                    </div>
+                    <br>
+                    <div class="col-sm-12">
+                        <button class="btn btn-info button" type= 'submit'>Submit</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+  </main>
+  <div class="container hint-container">
+    <div class="row justify-content-md-center">
+        <div class="col-sm-12 col-md-8">
+            <h1>Hints</h1>
+        </div>
+        <div class="col-sm-12 col-md-4">
+            <button class="btn btn-primary hint-btn">Get Hint</button>
+        </div>
+        <div class="col-sm-12" id="hint_box">
+        </div>
+        <div class="col-sm-12" id="results"></div>
+    </div>
+</div>
+{% if bonus %}
+    <div class="container hint-container bonus-hint-container">
+        <div class="row justify-content-md-center">
+            <div class="col-sm-12">
+                <h1>Bonus Hints</h1>
+            </div>
+            {% for hints in bonus.show %}
+                <div class="col-sm-12" id="{{hints}}-content">
+                    <li>{{hints}}</li>
+                </div>
+            {% endfor %}
+            {% for hints in bonus.hide %}
+                <div class="col-sm-12">
+                    <div class="row">
+                        <div class="col-sm-12 col-md-8" id="{{hints}}">
+                            <img class="img-responsive" id="blur" src="../../static/img/foreverblur.png"/>
+                        </div>
+                        <div class="col-sm-12 col-md-4">
+                            <button class="btn btn-primary bonus-hint-btn" data-val="{{hints}}">Get</button>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+            <div class="col-sm-12" id="bonus_results"></div>
+        </div>
+    </div>
+{% endif %}
+{% endblock %}
+
+{%block custom_js %}
+    <script>
+        $('.hint-btn').click(function(){
+            $.ajax({
+                url : "{% url 'hunt_view' %}", // the endpoint
+                // handle a successful response
+                success : function(json) {
+                    console.log(json); // log the returned json to the console
+                    response='';
+                    for(var i=0;i<json.hints.length;i++){
+                        response += '<li>'+json.hints[i]+'</li>';
+                    }
+                    $('#hint_box').html(response);
+                    $('#results').html('<strong>'+json.custom_info+'</strong>');
+                    console.log("success"); // another sanity check
+                },
+                // handle a non-successful response
+                error : function(xhr,errmsg,err) {
+                    $('#results').html("<div class='alert alert-danger radius' data-alert>Oops! We have encountered an error: "+errmsg+
+                        " <a href='#' class='close'>&times;</a></div>"); // add the error to the dom
+                    console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+                }
+            });
+        });
+        $('.bonus-hint-btn').click(function(){
+            var data_val = $(this).attr('data-val');
+            var this_hint = this;
+            $.ajax({
+                url : "{% url 'bonus_hint_view' %}", // the endpoint
+                // handle a successful response
+                data : {
+                    'id':data_val,
+                },
+                success : function(json) {
+                    console.log(json); // log the returned json to the console
+                    response='';
+                    if (json.hint.length > 0){
+                        $(this_hint).parent().parent().parent().html('<li>'+json.hint+'</li>');
+                    }
+                    console.log("success"); // another sanity check
+                },
+                // handle a non-successful response
+                error : function(xhr,errmsg,err) {
+                    $('#bonus_results').html("<div class='alert alert-danger radius' data-alert>Oops! We have encountered an error: "+errmsg+
+                        " <a href='#' class='close'>&times;</a></div>"); // add the error to the dom
+                    console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+                }
+            });
+        });
+    </script>
+{% endblock %}
