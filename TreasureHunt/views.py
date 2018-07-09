@@ -35,8 +35,8 @@ def homepage_view(request):
             Session.objects.get(session_key=stored_session_key).delete()
         request.user.logged_in_user.session_key = request.session.session_key
         request.user.logged_in_user.save()
-        social = request.user.social_auth.get(provider='facebook')
-        userid = social.uid
+        # social = request.user.social_auth.get(provider='facebook')
+        # userid = social.uid
         return HttpResponseRedirect('/hunt')
     else:
         messages.info(request, 'You need to login first.')
