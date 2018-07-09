@@ -23,7 +23,9 @@
                 {% for gameuser in gameusers %}
                 <tbody>
                     <tr>
-                        <th scope="row">{{ gameuser.user }}</th>
+                        <th scope="row">
+                            <img class="img-fluid" src="https://graph.facebook.com/{{ gameuser.user.social_auth.get(provider='facebook').uid }}/picture?type=square" alt='{{ request.user.first_name }}'/>
+                        </th>
                         <td>{{ gameuser.user.first_name }}&nbsp;{{ gameuser.user.last_name }}</td>
                         <td>{{ gameuser.level }}</td>
                         <td>{{ gameuser.score }}</td>
