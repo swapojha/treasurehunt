@@ -25,7 +25,7 @@ SECRET_KEY = 'hrdnrzi8w_amkzth29t5ji&7ysejut1yx%0io6z!rzo8d7oisn'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['linpaws.pythonanywhere.com']
 
 
 # Application definition
@@ -68,7 +68,7 @@ ROOT_URLCONF = 'TreasureHunt.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['TreasureHunt/templates'],
+        'DIRS': ['linpaws.pythonanywhere.com/TreasureHunt/templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -136,8 +136,10 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR,'static')
 STATICFILES_DIRS = [
-    'TreasureHunt/static',
+    'linpaws.pythonanywhere.com/TreasureHunt/static',
 ]
 
 SOCIAL_AUTH_FACEBOOK_KEY = '160248288173360'
 SOCIAL_AUTH_FACEBOOK_SECRET = '3617223b4f774d97bfb549fa69ed02e9'
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
