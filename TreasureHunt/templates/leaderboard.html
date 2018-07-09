@@ -4,7 +4,7 @@
   <div class="container">
       <div class="row">
           <div class="col-12 text-center">
-              LEADERBOARD
+              <h1>LEADERBOARD</h1>
           </div>
       </div>
       <div class="row">
@@ -23,11 +23,11 @@
                 {% for gameuser in gameusers %}
                 <tbody>
                     <tr>
-                        <th scope="row">gameuser.user</th>
-                        <td>gameuser.user.firstname</td>
-                        <td>gameuser.score</td>
-                        <td>gameuser.level</td>
-                        <td>gameuser.timestamp</td>
+                        <th scope="row">{{ gameuser.user }}</th>
+                        <td>{{ gameuser.user.firstname }}</td>
+                        <td>{{ gameuser.score }}</td>
+                        <td>{{ gameuser.level }}</td>
+                        <td>{{ gameuser.timestamp }}</td>
                     </tr>
                 </tbody>
                 {% endfor %}
