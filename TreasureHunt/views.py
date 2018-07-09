@@ -15,7 +15,7 @@ def login_view(request,msg=''):
         return render(request,'login.html',{'msg':msg})
 
 def rules(request):
-    return HttpResponse('Rules page')
+    return render(request,'rules.html')
 
 def leaderboard(request):
     # No need for user authentication

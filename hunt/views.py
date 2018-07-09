@@ -9,8 +9,8 @@ from django.utils import timezone
 from .forms import answer_form
 from django.http import JsonResponse
 
-first_bonus_limit=1
-second_bonus_limit=1
+first_bonus_limit=6
+second_bonus_limit=8
 first_bonus_penalty=19
 second_bonus_penalty=29
 

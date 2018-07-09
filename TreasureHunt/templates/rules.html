@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="container">
+      <div class="row">
+          <div class="col-12 text-center">
+              <h1>RULES</h1>
+          </div>
+      </div>
+      <div class="row">
+          <div class="col-12">
+              <ul>
+                  <li>
+                    There are three questions as of now. Each question has a max score of 100.
+                  </li>
+                  <li>
+                    There are two types of hint available for each question: Normal hints and Bonus hints.
+                    <ul>
+                        <h3>Normal Hints</h3>
+                        <li>There are four normal hints. Each comes at an interval of 1 minute from start of the question.</li>
+                        <li>There is no mark deduction for using normal hints.</li>
+                        <h3>Bonus Hints</h3>
+                        <li>There are two normal hints available.</li>
+                        <li>Using First bonus hints costs you 19 points and second 29 points.</li>
+                    </ul>
+                  </li>
+                  <li>
+                      There is an overall deduction in your score depending upon how much time you spent on a question.
+                      <li>If you take more than 1 minute, you lose 5 points.</li>
+                      <li>If you take more than 2 minutes, you lose 7 points.</li>
+                      <li>If you take more than 3 minutes, you lose 11 points.</li>
+                  </li>
+                  <li>If two or more players have same score, they will be ranked according to their last successfull attempt.</li>
+              </ul>
+              Enjoy!
+          </div>
+      </div>
+  </div>
+{% endblock %}
