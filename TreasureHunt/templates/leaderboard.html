@@ -21,7 +21,7 @@
                         <!-- <th scope="col">Time</th> -->
                       </tr>
                     </thead>  
-                <!-- {% with counter=1 %} -->
+                {% with counter=1 %}
                 {% for gameuser in gameusers %}
                 <tbody>
                     <tr>
@@ -43,7 +43,7 @@
                 </tbody>
                 <!-- {{ counter|add:"1" }} -->
                 {% endfor %}
-                <!-- {% endwith %} -->
+                {% endwith %}
                 </table>
               {% endif %}
           </div>
