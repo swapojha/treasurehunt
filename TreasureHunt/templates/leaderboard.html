@@ -21,12 +21,12 @@
                         <!-- <th scope="col">Time</th> -->
                       </tr>
                     </thead>  
-                {% with counter=1 %}
+                {% with counter=0 %}
                 {% for gameuser in gameusers %}
                 <tbody>
                     <tr>
                         <th scope="row">
-                            <!-- {{ counter }} -->
+                            {{ counter|add:"1" }}
                         </th>
                         <td>
                             <img class="img-fluid" src="https://graph.facebook.com/{{ gameuser.uid }}/picture?type=square" alt='{{ request.user.first_name }}'/>
@@ -41,7 +41,6 @@
                         {% endif %} -->
                     </tr>
                 </tbody>
-                {{ counter|add:"1" }}
                 {% endfor %}
                 {% endwith %}
                 </table>
