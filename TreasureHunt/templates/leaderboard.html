@@ -13,6 +13,7 @@
               <table class="table table-hover table-dark">
                     <thead>
                       <tr>
+                        <th scope="col">Rank</th>
                         <th scope="col">Pic</th>
                         <th scope="col">Name</th>
                         <th scope="col">Level</th>
@@ -20,12 +21,16 @@
                         <th scope="col">Time</th>
                       </tr>
                     </thead>  
+                {% counter = 1 %}
                 {% for gameuser in gameusers %}
                 <tbody>
                     <tr>
                         <th scope="row">
-                            <img class="img-fluid" src="https://graph.facebook.com/{{ gameuser.uid }}/picture?type=square" alt='{{ request.user.first_name }}'/>
+                            {{ counter }}
                         </th>
+                        <td>
+                            <img class="img-fluid" src="https://graph.facebook.com/{{ gameuser.uid }}/picture?type=square" alt='{{ request.user.first_name }}'/>
+                        </td>
                         <td>{{ gameuser.guser.user.first_name }}&nbsp;{{ gameuser.guser.user.last_name }}</td>
                         <td>{{ gameuser.guser.level }}</td>
                         <td>{{ gameuser.guser.score }}</td>
@@ -36,6 +41,7 @@
                         {% endif %}
                     </tr>
                 </tbody>
+                {% counter = counter + 1 %}
                 {% endfor %}
                 </table>
               {% endif %}
