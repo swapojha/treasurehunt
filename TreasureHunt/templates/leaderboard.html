@@ -18,7 +18,7 @@
                         <th scope="col">Name</th>
                         <th scope="col">Level</th>
                         <th scope="col">Score</th>
-                        <th scope="col">Time</th>
+                        <!-- <th scope="col">Time</th> -->
                       </tr>
                     </thead>  
                 {% with counter=1 %}
@@ -34,11 +34,11 @@
                         <td>{{ gameuser.guser.user.first_name }}&nbsp;{{ gameuser.guser.user.last_name }}</td>
                         <td>{{ gameuser.guser.level }}</td>
                         <td>{{ gameuser.guser.score }}</td>
-                        {% if gameuser.guser.timestamp %}
+                        <!-- {% if gameuser.guser.timestamp %}
                             <td>{{ gameuser.guser.timestamp }}</td>
                         {% else %}
                         <td>--</td>
-                        {% endif %}
+                        {% endif %} -->
                     </tr>
                 </tbody>
                 {{ counter|add:"1" }}
