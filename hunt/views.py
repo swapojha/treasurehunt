@@ -128,7 +128,7 @@ def update_question_score(player_question_data):
 def check_timeout(request):
     time_limit = 3
     no_of_attempts = 2
-    print("Checking timout")
+    return render(request,'hunt/timed_out.html',{'username':firstname})
     if(request.session['last_attempt']):
         attempts = request.session['attempts']
         last_attempt = request.session['last_attempt']
