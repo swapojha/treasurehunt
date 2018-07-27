@@ -143,11 +143,11 @@ def check_timeout(request):
                 return False
         else:
             request.session['last_attempt'] = timezone.now().__str__()
-            request.session['attempts'] = 1
+            request.session['attempts'] = 0
             return False
     else:
         request.session['last_attempt'] = timezone.now().__str__()
-        request.session['attempts'] = 1
+        request.session['attempts'] = 0
         return False
 
 
