@@ -8,7 +8,7 @@ from django.contrib import messages
 from django.utils import timezone 
 from .forms import answer_form
 from django.http import JsonResponse
-from datetime import datetime
+from django.utils.dateparse import parse_datetime
 
 first_bonus_limit=6
 second_bonus_limit=8
@@ -131,7 +131,7 @@ def check_timeout(request):
     no_of_attempts = 2
     if('last_attempt' in request.session):
         attempts = request.session['attempts']
-        last_attempt = datetime.strptime(request.session['last_attempt'])
+        last_attempt =  parse_datetime(request.session['last_attempt'])
         time_delta = timezone.now()-last_attempt
         diff_in_minutes = time_delta.total_seconds()/60
         if diff_in_minutes < time_limit:
