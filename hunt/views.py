@@ -127,14 +127,14 @@ def update_question_score(player_question_data):
     
 
 def check_timeout(game_user):
-    time_limit = 3
-    no_of_attempts = 2
+    time_limit = 120
+    no_of_attempts = 10
     if(game_user.last_attempt):
         attempts = game_user.timeout_attempts
         last_attempt =  game_user.last_attempt
         time_delta = timezone.now()-last_attempt
-        diff_in_minutes = time_delta.total_seconds()/60
-        if diff_in_minutes < time_limit:
+        diff_in_seconds = time_delta.total_seconds()
+        if diff_in_seconds < time_limit:
             attempts += 1
             game_user.timeout_attempts = attempts
             game_user.save()
