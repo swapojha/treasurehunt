@@ -18,6 +18,8 @@ class GameUser(models.Model):
     score = models.IntegerField(default=0)
     timestamp = models.DateTimeField(null=True)
     total_attempts = models.IntegerField(default=0)
+    last_attempt = models.DateTimeField(null=True)
+    timeout_attempts = models.IntegerField(0)
     def levelup(self,ques_score,timestamp,attempts):
         self.level+=1
         self.score+=ques_score

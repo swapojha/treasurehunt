@@ -126,28 +126,31 @@ def update_question_score(player_question_data):
     player_question_data.save()
     
 
-def check_timeout(request):
+def check_timeout(game_user):
     time_limit = 3
     no_of_attempts = 2
-    if('last_attempt' in request.session):
-        attempts = request.session['attempts']
-        last_attempt =  parse_datetime(request.session['last_attempt'])
+    if(game_user.last_attempt):
+        attempts = game_user.timeout_attempts
+        last_attempt =  game_user.last_attempt
         time_delta = timezone.now()-last_attempt
         diff_in_minutes = time_delta.total_seconds()/60
         if diff_in_minutes < time_limit:
             attempts += 1
-            request.session['attempts'] = attempts
+            game_user.timeout_attempts = attempts
+            game_user.save()
             if attempts > no_of_attempts:
                 return True
             else:
                 return False
         else:
-            request.session['last_attempt'] = timezone.now().__str__()
-            request.session['attempts'] = 0
+            game_user.last_attempt = timezone.now()
+            game_user.timeout_attempts = 0
+            game_user.save()
             return False
     else:
-        request.session['last_attempt'] = timezone.now().__str__()
-        request.session['attempts'] = 0
+        game_user.last_attempt = timezone.now()
+        game_user.timeout_attempts = 0
+        game_user.save()
         return False
 
 
@@ -155,7 +158,7 @@ def check_timeout(request):
 class hunt_view(object):
     def index(request):
         if request.user.is_authenticated:
-            user_timed_out = check_timeout(request)
+            user_timed_out = check_timeout(request.user.game_user)
             if user_timed_out:
                 return render(request,'hunt/timed_out.html')
             else:
