@@ -128,7 +128,7 @@ def update_question_score(player_question_data):
 def check_timeout(request):
     time_limit = 3
     no_of_attempts = 2
-    if(request.session['last_attempt']):
+    if('last_attempt' in request.session):
         attempts = request.session['attempts']
         last_attempt = request.session['last_attempt']
         time_delta = timezone.now()-last_attempt
