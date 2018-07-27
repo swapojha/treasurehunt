@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils import timezone 
 # Create your models here.
 
 # Model to store the list of logged in users
@@ -18,7 +19,7 @@ class GameUser(models.Model):
     score = models.IntegerField(default=0)
     timestamp = models.DateTimeField(null=True)
     total_attempts = models.IntegerField(default=0)
-    last_attempt = models.DateTimeField(null=True)
+    last_attempt = models.DateTimeField(default=timezone.now())
     timeout_attempts = models.IntegerField(0)
     def levelup(self,ques_score,timestamp,attempts):
         self.level+=1
