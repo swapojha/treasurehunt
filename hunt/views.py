@@ -154,6 +154,7 @@ def check_timeout(request):
 # Create your views here.
 class hunt_view(object):
     def index(request):
+        log.debug("Hello")
         if request.user.is_authenticated:
             user_timed_out = check_timeout(request)
             if user_timed_out:
