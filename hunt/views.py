@@ -193,6 +193,7 @@ class hunt_view(object):
                 else:
                     # social = request.user.social_auth.get(provider='facebook')
                     # userid = social.uid
+                    return "Debug1"
                     firstname = request.user.first_name
                     user_level = request.user.game_user.level
                     try:
