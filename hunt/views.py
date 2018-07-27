@@ -128,7 +128,7 @@ def update_question_score(player_question_data):
 def check_timeout(request):
     time_limit = 3
     no_of_attempts = 2
-    return render(request,'hunt/timed_out.html',{'username':firstname})
+    return "1"
     if(request.session['last_attempt']):
         attempts = request.session['attempts']
         last_attempt = request.session['last_attempt']
@@ -154,9 +154,9 @@ def check_timeout(request):
 # Create your views here.
 class hunt_view(object):
     def index(request):
-        log.debug("Hello")
         if request.user.is_authenticated:
             user_timed_out = check_timeout(request)
+            return user_timed_out
             if user_timed_out:
                 return render(request,'hunt/timed_out.html',{'username':firstname})
             else:
