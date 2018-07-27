@@ -128,7 +128,6 @@ def update_question_score(player_question_data):
 def check_timeout(request):
     time_limit = 3
     no_of_attempts = 2
-    return "1"
     if(request.session['last_attempt']):
         attempts = request.session['attempts']
         last_attempt = request.session['last_attempt']
@@ -156,7 +155,6 @@ class hunt_view(object):
     def index(request):
         if request.user.is_authenticated:
             user_timed_out = check_timeout(request)
-            return user_timed_out
             if user_timed_out:
                 return render(request,'hunt/timed_out.html',{'username':firstname})
             else:
@@ -193,7 +191,6 @@ class hunt_view(object):
                 else:
                     # social = request.user.social_auth.get(provider='facebook')
                     # userid = social.uid
-                    return "Debug1"
                     firstname = request.user.first_name
                     user_level = request.user.game_user.level
                     try:
