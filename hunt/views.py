@@ -157,7 +157,7 @@ class hunt_view(object):
         if request.user.is_authenticated:
             user_timed_out = check_timeout(request)
             if user_timed_out:
-                return render(request,'hunt/timed_out.html',{'username':firstname})
+                return render(request,'hunt/timed_out.html')
             else:
                 if request.method == 'POST':
                     form = answer_form(request.POST)
