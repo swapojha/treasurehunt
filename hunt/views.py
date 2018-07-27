@@ -128,6 +128,7 @@ def update_question_score(player_question_data):
 def check_timeout(request):
     time_limit = 3
     no_of_attempts = 10
+    print("Checking timout")
     if(request.session['last_attempt']):
         attempts = request.session['attempts']
         last_attempt = request.session['last_attempt']
@@ -157,7 +158,7 @@ class hunt_view(object):
             user_timed_out = check_timeout(request)
             if user_timed_out:
                 return render(request,'hunt/timed_out.html',{'username':firstname})
-            elif:
+            else:
                 if request.method == 'POST':
                     form = answer_form(request.POST)
                     if form.is_valid():
