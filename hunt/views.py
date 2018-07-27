@@ -200,9 +200,9 @@ class hunt_view(object):
                         return render(request,'hunt/home.html', {'username':firstname, 'level':user_level , 'question':question , 'form': form,'bonus':bonus_data})
                     except ObjectDoesNotExist:
                         return render(request,'hunt/success.html',{'username':firstname})
-            else:
-                messages.info(request, 'You need to login first.')
-                return HttpResponseRedirect('/')
+        else:
+            messages.info(request, 'You need to login first.')
+            return HttpResponseRedirect('/')
                 
     # def get_hint(request):
     #     if request.user.is_authenticated:
