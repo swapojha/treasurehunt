@@ -10,7 +10,7 @@ class LoggedInUser(models.Model):
     session_key = models.CharField(max_length=32, null=True, blank=True)
 
     def __str__(self):
-        return self.user.username
+        return "User: "+self.user.username
 
 class GameUser(models.Model):
     user = models.OneToOneField(User, related_name="game_user",on_delete=models.CASCADE)
@@ -27,7 +27,7 @@ class GameUser(models.Model):
         self.timestamp=timestamp
         self.total_attempts+=attempts
     def __str__(self):
-        return str(self.user.username)+str(self.level)
+        return "User: "+str(self.user.username)+" Level: "+str(self.level)
 
 class Question(models.Model):
     level = models.PositiveSmallIntegerField(default=1)
@@ -37,7 +37,7 @@ class Question(models.Model):
     answer = models.CharField(max_length=100,null=True,blank=True)
     sattempts = models.IntegerField(default=0)
     def __str__(self):
-        return str(self.level)
+        return "Level: "+str(self.level)
     
 class Hint(models.Model):
     question = models.OneToOneField(Question, related_name='question_hint',on_delete=models.CASCADE)
@@ -51,7 +51,7 @@ class Hint(models.Model):
     hint_7 = models.CharField(max_length=100,null=True,blank=True)
     hint_8 = models.CharField(max_length=100,null=True,blank=True)
     def __str__(self):
-        return str(self.question.level)
+        return "Level: "+str(self.question.level)
 
 class GameUserData(models.Model):
     game_user = models.ForeignKey(GameUser, related_name='game_user_data',on_delete=models.CASCADE)
@@ -67,6 +67,6 @@ class GameUserData(models.Model):
     hint_7_used = models.BooleanField(default=False)
     hint_8_used = models.BooleanField(default=False)
     def __str__(self):
-        return str(self.game_user.user.username)+str(self.question.level)   
+        return "User: "+str(self.game_user.user.username)+" Level: "+str(self.question.level)   
 
 from .receiver import *
