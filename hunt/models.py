@@ -26,6 +26,8 @@ class GameUser(models.Model):
         self.score+=ques_score
         self.timestamp=timestamp
         self.total_attempts+=attempts
+    def __str__(self):
+        return (self.user.username,self.level)
 
 class Question(models.Model):
     level = models.PositiveSmallIntegerField(default=1)
@@ -34,6 +36,8 @@ class Question(models.Model):
     score = models.IntegerField(default=0)
     answer = models.CharField(max_length=100,null=True,blank=True)
     sattempts = models.IntegerField(default=0)
+    def __str__(self):
+        return self.level
     
 class Hint(models.Model):
     question = models.OneToOneField(Question, related_name='question_hint',on_delete=models.CASCADE)
@@ -46,6 +50,8 @@ class Hint(models.Model):
     hint_6 = models.CharField(max_length=100,null=True,blank=True)
     hint_7 = models.CharField(max_length=100,null=True,blank=True)
     hint_8 = models.CharField(max_length=100,null=True,blank=True)
+    def __str__(self):
+        return self.question.level
 
 class GameUserData(models.Model):
     game_user = models.ForeignKey(GameUser, related_name='game_user_data',on_delete=models.CASCADE)
@@ -59,6 +65,8 @@ class GameUserData(models.Model):
     hint_5_used = models.BooleanField(default=False)
     hint_6_used = models.BooleanField(default=False)
     hint_7_used = models.BooleanField(default=False)
-    hint_8_used = models.BooleanField(default=False)   
+    hint_8_used = models.BooleanField(default=False)
+    def __str__(self):
+        return (self.game_user.user.username,self.question.level)   
 
 from .receiver import *
