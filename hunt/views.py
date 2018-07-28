@@ -128,7 +128,7 @@ def update_question_score(player_question_data):
 
 def check_timeout(game_user):
     time_limit = 120
-    no_of_attempts = 10
+    no_of_attempts = 20
     if(game_user.last_attempt):
         attempts = game_user.timeout_attempts
         last_attempt =  game_user.last_attempt
@@ -160,7 +160,9 @@ class hunt_view(object):
         if request.user.is_authenticated:
             user_timed_out = check_timeout(request.user.game_user)
             if user_timed_out:
-                return render(request,'hunt/timed_out.html')
+                firstname = request.user.first_name
+                user_level = request.user.game_user.level    
+                return render(request,'hunt/timed_out.html',{'username':firstname, 'level':user_level})
             else:
                 if request.method == 'POST':
                     form = answer_form(request.POST)
