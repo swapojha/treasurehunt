@@ -9,8 +9,8 @@ from django.utils import timezone
 from .forms import answer_form
 from django.http import JsonResponse
 
-first_bonus_limit=1
-second_bonus_limit=1
+first_bonus_limit=30
+second_bonus_limit=40
 first_bonus_penalty=19
 second_bonus_penalty=29
 
@@ -54,10 +54,10 @@ def get_bonus_hints(player):
     return bonus_hints
 
 def available_hints(request):
-    first_hint_time = 1
-    second_hint_time = 2
-    third_hint_time = 3
-    fourth_hint_time = 4
+    first_hint_time = 5
+    second_hint_time = 10
+    third_hint_time = 15
+    fourth_hint_time = 20
     custom_info = 'No more hints available as of now.'
     hints_finished_info = 'No more hints available for this question'
     user = request.user.game_user
@@ -104,11 +104,11 @@ def available_hints(request):
 
 def update_question_score(player_question_data):
     print("Score updation")
-    deduction_limit_one = 1
+    deduction_limit_one = 5
     score_deduct_one = 5
-    deduction_limit_two = 2
+    deduction_limit_two = 10
     score_deduct_two = 7
-    deduction_limit_three = 3
+    deduction_limit_three = 15
     score_deduct_three = 11 
     st_time = player_question_data.start_time
     time_delta = timezone.now()-st_time
