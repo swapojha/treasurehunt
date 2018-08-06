@@ -156,11 +156,11 @@ def check_timeout(game_user):
 
 def get_random_success_message():
     msg = ["Right answer", "Nice try, right answer","Right answer, well done"]
-    return random.randint(0,len(msg)-1)
+    return msg[random.randint(0,len(msg)-1)]
 
 def get_random_error_message():
     msg = ["Wrong answer", "Better luck next time","Keep trying, you can do it. Wrong answer."]
-    return random.randint(0,len(msg)-1)
+    return msg[random.randint(0,len(msg)-1)]
 
 # Create your views here.
 class hunt_view(object):
