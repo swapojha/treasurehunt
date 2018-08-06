@@ -33,7 +33,7 @@ def homepage_view(request):
         msg = 'You are logged in!'
         #print("Back here")
         LoggedInUser.objects.get_or_create(user = request.user)
-        game_user = GameUser.object.get(user = request.user)
+        game_user = GameUser.objects.get(user = request.user)
         if game_user.blocked:
             messages.info(request,'Due to unfair play, your account has been blocked.')
             logout_view(request)
