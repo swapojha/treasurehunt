@@ -11,7 +11,8 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 """
 
 import os
-
+USE_TZ = True
+TIME_ZONE = 'Asia/Kolkata'
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -23,9 +24,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'hrdnrzi8w_amkzth29t5ji&7ysejut1yx%0io6z!rzo8d7oisn'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['linpaws.pythonanywhere.com']
 
 
 # Application definition
@@ -91,9 +92,16 @@ LOGIN_REDIRECT_URL = 'home'
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 
 DATABASES = {
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    # }
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'linpaws$TreasureHunt',
+        'USER': 'linpaws',
+        'PASSWORD': 'eft78LUI&+@',
+        'HOST': 'linpaws.mysql.pythonanywhere-services.com',
     }
 }
 
@@ -137,8 +145,10 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR,'static')
 STATICFILES_DIRS = [
-    'TreasureHunt/static',
+    'linpaws.pythonanywhere.com/TreasureHunt/static',
 ]
 
 SOCIAL_AUTH_FACEBOOK_KEY = '160248288173360'
 SOCIAL_AUTH_FACEBOOK_SECRET = '3617223b4f774d97bfb549fa69ed02e9'
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

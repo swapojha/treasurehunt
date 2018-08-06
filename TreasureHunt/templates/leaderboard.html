@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="container">
+      <div class="row">
+          <div class="col-12 text-center">
+              <h1>LEADERBOARD</h1>
+          </div>
+      </div>
+      <div class="row">
+          <div class="col-12">
+              {% if gameusers %}
+              <table class="table table-hover table-dark">
+                    <thead>
+                      <tr>
+                        <th scope="col">Rank</th>
+                        <th scope="col">Pic</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Level</th>
+                        <th scope="col">Score</th>
+                        <!-- <th scope="col">Time</th> -->
+                      </tr>
+                    </thead>  
+                {% for gameuser in gameusers %}
+                <tbody>
+                    <tr>
+                        <th scope="row">
+                            {{ forloop.counter }}
+                        </th>
+                        <td>
+                            <img class="img-fluid" src="https://graph.facebook.com/{{ gameuser.uid }}/picture?type=square" alt='{{ request.user.first_name }}'/>
+                        </td>
+                        <td>{{ gameuser.guser.user.first_name }}&nbsp;{{ gameuser.guser.user.last_name }}</td>
+                        <td>{{ gameuser.guser.level }}</td>
+                        <td>{{ gameuser.guser.score }}</td>
+                        <!-- {% if gameuser.guser.timestamp %}
+                            <td>{{ gameuser.guser.timestamp }}</td>
+                        {% else %}
+                        <td>--</td>
+                        {% endif %} -->
+                    </tr>
+                </tbody>
+                {% endfor %}
+                </table>
+              {% endif %}
+          </div>
+      </div>
+  </div>
+{% endblock %}

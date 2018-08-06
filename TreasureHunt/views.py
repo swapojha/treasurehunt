@@ -15,13 +15,22 @@ def login_view(request,msg=''):
         return render(request,'login.html',{'msg':msg})
 
 def rules(request):
-    return HttpResponse('Rules page')
+    return render(request,'rules.html')
 
 def leaderboard(request):
-    return HttpResponse('Leaderboard page')
+    # No need for user authentication
+    game_users = GameUser.objects.filter(user__is_staff=False).order_by('-level','-score','timestamp')
+    with_uid_game_users = []
+    for game_user in game_users:
+        with_uid_game_users.append({
+            'guser':game_user,
+            'uid':game_user.user.social_auth.get(provider='facebook').uid,
+        })
+    return render(request,'leaderboard.html',{'gameusers':with_uid_game_users})
 
 def homepage_view(request):
     if request.user.is_authenticated:
+<<<<<<< HEAD
         # msg = 'You are logged in!'
         # print("Back here")
         LoggedInUser.objects.get_or_create(user = request.user)
@@ -43,6 +52,24 @@ def homepage_view(request):
             social = request.user.social_auth.get(provider='facebook')
             userid = social.uid
             return HttpResponseRedirect('/hunt')
+=======
+        msg = 'You are logged in!'
+        #print("Back here")
+        LoggedInUser.objects.get_or_create(user = request.user)
+        stored_session_key = request.user.logged_in_user.session_key
+        # if there is a stored_session_key  in our database and it is
+        # different from the current session, delete the stored_session_key
+        # session_key with from the Session table
+        #print(stored_session_key)
+        if stored_session_key and stored_session_key != request.session.session_key:
+            # print("Found Previous login")
+            Session.objects.get(session_key=stored_session_key).delete()
+        request.user.logged_in_user.session_key = request.session.session_key
+        request.user.logged_in_user.save()
+        # social = request.user.social_auth.get(provider='facebook')
+        # userid = social.uid
+        return HttpResponseRedirect('/hunt')
+>>>>>>> 17794f76e6220ce1b32e6afa936ea4eb7d2b0e02
     else:
         messages.info(request, 'You need to login first.')
         return HttpResponseRedirect('/')

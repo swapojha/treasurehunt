@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils import timezone 
 # Create your models here.
 
 # Model to store the list of logged in users
@@ -9,7 +10,7 @@ class LoggedInUser(models.Model):
     session_key = models.CharField(max_length=32, null=True, blank=True)
 
     def __str__(self):
-        return self.user.username
+        return "User: "+self.user.username
 
 class GameUser(models.Model):
     user = models.OneToOneField(User, related_name="game_user",on_delete=models.CASCADE)
@@ -18,11 +19,15 @@ class GameUser(models.Model):
     score = models.IntegerField(default=0)
     timestamp = models.DateTimeField(null=True)
     total_attempts = models.IntegerField(default=0)
+    last_attempt = models.DateTimeField(null=True)
+    timeout_attempts = models.IntegerField(default=0)
     def levelup(self,ques_score,timestamp,attempts):
         self.level+=1
         self.score+=ques_score
         self.timestamp=timestamp
         self.total_attempts+=attempts
+    def __str__(self):
+        return "User: "+str(self.user.username)+" Level: "+str(self.level)
 
 class Question(models.Model):
     level = models.PositiveSmallIntegerField(default=1)
@@ -31,6 +36,8 @@ class Question(models.Model):
     score = models.IntegerField(default=0)
     answer = models.CharField(max_length=100,null=True,blank=True)
     sattempts = models.IntegerField(default=0)
+    def __str__(self):
+        return "Level: "+str(self.level)
     
 class Hint(models.Model):
     question = models.OneToOneField(Question, related_name='question_hint',on_delete=models.CASCADE)
@@ -43,6 +50,8 @@ class Hint(models.Model):
     hint_6 = models.CharField(max_length=100,null=True,blank=True)
     hint_7 = models.CharField(max_length=100,null=True,blank=True)
     hint_8 = models.CharField(max_length=100,null=True,blank=True)
+    def __str__(self):
+        return "Level: "+str(self.question.level)
 
 class GameUserData(models.Model):
     game_user = models.ForeignKey(GameUser, related_name='game_user_data',on_delete=models.CASCADE)
@@ -56,6 +65,8 @@ class GameUserData(models.Model):
     hint_5_used = models.BooleanField(default=False)
     hint_6_used = models.BooleanField(default=False)
     hint_7_used = models.BooleanField(default=False)
-    hint_8_used = models.BooleanField(default=False)   
+    hint_8_used = models.BooleanField(default=False)
+    def __str__(self):
+        return "User: "+str(self.game_user.user.username)+" Level: "+str(self.question.level)   
 
 from .receiver import *
