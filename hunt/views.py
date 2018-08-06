@@ -10,13 +10,8 @@ from .forms import answer_form
 from django.http import JsonResponse
 from django.utils.dateparse import parse_datetime
 
-<<<<<<< HEAD
 first_bonus_limit=30
 second_bonus_limit=40
-=======
-first_bonus_limit=6
-second_bonus_limit=8
->>>>>>> 17794f76e6220ce1b32e6afa936ea4eb7d2b0e02
 first_bonus_penalty=19
 second_bonus_penalty=29
 
@@ -158,6 +153,13 @@ def check_timeout(game_user):
         game_user.save()
         return False
 
+def get_random_success_message():
+    msg = ["Right answer", "Nice try, right answer","Right answer, well done"]
+    return random.randint(0,len(msg)-1)
+
+def get_random_error_message():
+    msg = ["Wrong answer", "Better luck next time","Keep trying, you can do it. Wrong answer."]
+    return random.randint(0,len(msg)-1)
 
 # Create your views here.
 class hunt_view(object):
@@ -193,9 +195,9 @@ class hunt_view(object):
                                 GameUserData.objects.create(game_user=current_user.game_user,question=next_quest,start_time=timezone.now(),score=next_quest.score)
                             except ObjectDoesNotExist:
                                 pass
-                            messages.success(request, 'Yay! Right Answer!')
+                            messages.success(request, get_random_success_message())
                         else:
-                            messages.error(request, 'Oh! Wrong Answer!')
+                            messages.error(request, get_random_error_message())
                         return HttpResponseRedirect('/hunt')
                 elif request.is_ajax():
                     return available_hints(request)    
