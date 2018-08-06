@@ -166,6 +166,9 @@ def get_random_error_message():
 class hunt_view(object):
     def index(request):
         if request.user.is_authenticated:
+            game_user = GameUser.objects.get(user = request.user)
+            if game_user.blocked:
+                return HttpResponseRedirect('/')
             user_timed_out = check_timeout(request.user.game_user)
             if user_timed_out:
                 firstname = request.user.first_name
