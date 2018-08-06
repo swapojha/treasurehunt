@@ -9,6 +9,7 @@ from django.utils import timezone
 from .forms import answer_form
 from django.http import JsonResponse
 from django.utils.dateparse import parse_datetime
+import random
 
 first_bonus_limit=30
 second_bonus_limit=40
