@@ -5,13 +5,13 @@ from .models import LoggedInUser, Question, GameUserData, GameUser, Hint
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.sessions.models import Session
 from django.contrib import messages
-from django.utils import timezone 
+from django.utils import timezone
 from .forms import answer_form
 from django.http import JsonResponse
 from django.utils.dateparse import parse_datetime
 
-first_bonus_limit=6
-second_bonus_limit=8
+first_bonus_limit=30
+second_bonus_limit=40
 first_bonus_penalty=19
 second_bonus_penalty=29
 
@@ -24,7 +24,7 @@ def get_bonus_hints(player):
     st_time = user_question_data.start_time
     time_delta = timezone.now()-st_time
     diff_in_minutes = time_delta.total_seconds()/60
-    hints = Hint.objects.get(question = quest)  
+    hints = Hint.objects.get(question = quest)
     bonus_hints = None
     if diff_in_minutes > second_bonus_limit:
         if not user_question_data.hint_5_used:
@@ -55,16 +55,16 @@ def get_bonus_hints(player):
     return bonus_hints
 
 def available_hints(request):
-    first_hint_time = 1
-    second_hint_time = 2
-    third_hint_time = 3
-    fourth_hint_time = 4
+    first_hint_time = 5
+    second_hint_time = 10
+    third_hint_time = 15
+    fourth_hint_time = 20
     custom_info = 'No more hints available as of now.'
     hints_finished_info = 'No more hints available for this question'
     user = request.user.game_user
     quest = Question.objects.get(level = request.user.game_user.level)
     user_question_data = GameUserData.objects.get(game_user=user,question=quest)
-    hints = Hint.objects.get(question = quest)  
+    hints = Hint.objects.get(question = quest)
     st_time = user_question_data.start_time
     time_delta = timezone.now()-st_time
     diff_in_minutes = time_delta.total_seconds()/60
@@ -105,12 +105,12 @@ def available_hints(request):
 
 def update_question_score(player_question_data):
     print("Score updation")
-    deduction_limit_one = 1
+    deduction_limit_one = 5
     score_deduct_one = 5
-    deduction_limit_two = 2
+    deduction_limit_two = 10
     score_deduct_two = 7
-    deduction_limit_three = 3
-    score_deduct_three = 11 
+    deduction_limit_three = 15
+    score_deduct_three = 11
     st_time = player_question_data.start_time
     time_delta = timezone.now()-st_time
     diff_in_minutes = time_delta.total_seconds()/60
@@ -124,7 +124,7 @@ def update_question_score(player_question_data):
     print(player_question_data.score)
     print("Score updations ends")
     player_question_data.save()
-    
+
 
 def check_timeout(game_user):
     time_limit = 120
@@ -161,7 +161,7 @@ class hunt_view(object):
             user_timed_out = check_timeout(request.user.game_user)
             if user_timed_out:
                 firstname = request.user.first_name
-                user_level = request.user.game_user.level    
+                user_level = request.user.game_user.level
                 return render(request,'hunt/timed_out.html',{'username':firstname, 'level':user_level})
             else:
                 if request.method == 'POST':
@@ -171,7 +171,7 @@ class hunt_view(object):
                         quest = Question.objects.get(level = request.user.game_user.level)
                         user_question_data = GameUserData.objects.get(game_user=current_user.game_user,question=quest)
                         user_question_data.attempts += 1
-                        user_question_data.save()    
+                        user_question_data.save()
                         given_answer = form.cleaned_data['answer']
                         valid_answer = Question.objects.get(level = request.user.game_user.level).answer
                         if valid_answer == given_answer:
@@ -193,7 +193,7 @@ class hunt_view(object):
                             messages.error(request, 'Oh! Wrong Answer!')
                         return HttpResponseRedirect('/hunt')
                 elif request.is_ajax():
-                    return available_hints(request)    
+                    return available_hints(request)
                 else:
                     # social = request.user.social_auth.get(provider='facebook')
                     # userid = social.uid
@@ -209,7 +209,7 @@ class hunt_view(object):
         else:
             messages.info(request, 'You need to login first.')
             return HttpResponseRedirect('/')
-                
+
     # def get_hint(request):
     #     if request.user.is_authenticated:
     #         #Check time elapsed on this question.Depending on time elapsed send appropriate number of hints to the user
@@ -225,7 +225,7 @@ class hunt_view(object):
             user = request.user.game_user
             quest = Question.objects.get(level = request.user.game_user.level)
             user_question_data = GameUserData.objects.get(game_user=user,question=quest)
-            hints = Hint.objects.get(question = quest)  
+            hints = Hint.objects.get(question = quest)
             st_time = user_question_data.start_time
             time_delta = timezone.now()-st_time
             diff_in_minutes = time_delta.total_seconds()/60
