@@ -36,7 +36,7 @@ def homepage_view(request):
         game_user = GameUser.objects.get(user = request.user)
         if game_user.blocked:
             messages.info(request,'Due to unfair play, your account has been blocked.')
-            logout_view(request)
+            return logout_view(request)
         else:
             stored_session_key = request.user.logged_in_user.session_key
             # if there is a stored_session_key  in our database and it is
