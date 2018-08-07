@@ -104,21 +104,6 @@ def available_hints(request):
     user_question_data.save()
     return JsonResponse(hint_array)
 
-<<<<<<< HEAD
-def update_question_score(player_question_data):
-    print("Score updation")
-    deduction_limit_one = 5
-    score_deduct_one = 5
-    deduction_limit_two = 10
-    score_deduct_two = 7
-    deduction_limit_three = 15
-    score_deduct_three = 11
-    st_time = player_question_data.start_time
-    time_delta = timezone.now()-st_time
-    diff_in_minutes = time_delta.total_seconds()/60
-    print("Difference: ",diff_in_minutes)
-    if diff_in_minutes > deduction_limit_three:
-=======
 def update_question_score(player_question_data,sttempts):
     """
         Before:
@@ -130,7 +115,7 @@ def update_question_score(player_question_data,sttempts):
     # deduction_limit_two = 10
     # score_deduct_two = 7
     # deduction_limit_three = 15
-    # score_deduct_three = 11 
+    # score_deduct_three = 11
     # st_time = player_question_data.start_time
     # time_delta = timezone.now()-st_time
     # diff_in_minutes = time_delta.total_seconds()/60
@@ -156,19 +141,12 @@ def update_question_score(player_question_data,sttempts):
     deduction_limit_three = 30
     score_deduct_three = 8
     if sattempts > deduction_limit_three:
->>>>>>> 1f625e2a553b757f6019fc1948bb1b695093d177
         player_question_data.score -= score_deduct_three
     elif sttempts > deduction_limit_two:
         player_question_data.score -= score_deduct_two
     elif sttempts > deduction_limit_one:
         player_question_data.score -= score_deduct_one
     player_question_data.save()
-<<<<<<< HEAD
-
-=======
-    
-    
->>>>>>> 1f625e2a553b757f6019fc1948bb1b695093d177
 
 def check_timeout(game_user):
     time_limit = 120
