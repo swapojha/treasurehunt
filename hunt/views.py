@@ -192,7 +192,7 @@ def clean_answer(answer):
             cleaned+=letter
         elif letter >='0' and letter <='9':
             cleaned+=letter
-    cleaned = lower(cleaned)
+    cleaned = cleaned.lower()
     return cleaned
 
 # Create your views here.
