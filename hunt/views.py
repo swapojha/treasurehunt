@@ -104,6 +104,7 @@ def available_hints(request):
     user_question_data.save()
     return JsonResponse(hint_array)
 
+<<<<<<< HEAD
 def update_question_score(player_question_data):
     print("Score updation")
     deduction_limit_one = 5
@@ -117,15 +118,57 @@ def update_question_score(player_question_data):
     diff_in_minutes = time_delta.total_seconds()/60
     print("Difference: ",diff_in_minutes)
     if diff_in_minutes > deduction_limit_three:
+=======
+def update_question_score(player_question_data,sttempts):
+    """
+        Before:
+        This was to update the score of the user on the basis of time he took to solve the question.
+    """
+    # # print("Score updation")
+    # deduction_limit_one = 5
+    # score_deduct_one = 5
+    # deduction_limit_two = 10
+    # score_deduct_two = 7
+    # deduction_limit_three = 15
+    # score_deduct_three = 11 
+    # st_time = player_question_data.start_time
+    # time_delta = timezone.now()-st_time
+    # diff_in_minutes = time_delta.total_seconds()/60
+    # # print("Difference: ",diff_in_minutes)
+    # if diff_in_minutes > deduction_limit_three:
+    #     player_question_data.score -= score_deduct_three
+    # elif  diff_in_minutes > deduction_limit_two:
+    #     player_question_data.score -= score_deduct_two
+    # elif diff_in_minutes > deduction_limit_one:
+    #     player_question_data.score -= score_deduct_one
+    # # print(player_question_data.score)
+    # # print("Score updations ends")
+    # player_question_data.save()
+    """
+        Now:
+        No deduction on the basis of time he/she took.
+        We will deduct marks on the basis of how many people have solved this question before him/her.
+    """
+    deduction_limit_one = 10
+    score_deduct_one = 3
+    deduction_limit_two = 20
+    score_deduct_two = 6
+    deduction_limit_three = 30
+    score_deduct_three = 8
+    if sattempts > deduction_limit_three:
+>>>>>>> 1f625e2a553b757f6019fc1948bb1b695093d177
         player_question_data.score -= score_deduct_three
-    elif  diff_in_minutes > deduction_limit_two:
+    elif sttempts > deduction_limit_two:
         player_question_data.score -= score_deduct_two
-    elif diff_in_minutes > deduction_limit_one:
+    elif sttempts > deduction_limit_one:
         player_question_data.score -= score_deduct_one
-    print(player_question_data.score)
-    print("Score updations ends")
     player_question_data.save()
+<<<<<<< HEAD
 
+=======
+    
+    
+>>>>>>> 1f625e2a553b757f6019fc1948bb1b695093d177
 
 def check_timeout(game_user):
     time_limit = 120
@@ -162,6 +205,18 @@ def get_random_error_message():
     msg = ["Wrong answer", "Better luck next time","Keep trying, you can do it. Wrong answer."]
     return msg[random.randint(0,len(msg)-1)]
 
+def clean_answer(answer):
+    cleaned=''
+    for letter in answer:
+        if letter>='a' and letter <='z':
+            cleaned+=letter
+        elif letter >='A' and letter <='Z':
+            cleaned+=letter
+        elif letter >='0' and letter <='9':
+            cleaned+=letter
+    cleaned = lower(cleaned)
+    return cleaned
+
 # Create your views here.
 class hunt_view(object):
     def index(request):
@@ -184,12 +239,15 @@ class hunt_view(object):
                         user_question_data.attempts += 1
                         user_question_data.save()
                         given_answer = form.cleaned_data['answer']
+                        #given the input in form we need to convert it into compressed form
+                        #i.e no spaces and all lowercase for comparison with correct answer
+                        given_answer = clean_answer(given_answer)
                         valid_answer = Question.objects.get(level = request.user.game_user.level).answer
                         if valid_answer == given_answer:
                             quest.sattempts+=1
                             quest.save()
-                            print("Updating score of question")
-                            update_question_score(user_question_data)
+                            # print("Updating score of question")
+                            update_question_score(user_question_data,quest.sattempts)
                             user_question_data.end_time = timezone.now()
                             user_question_data.save()
                             current_user.game_user.levelup(user_question_data.score,timezone.now(),user_question_data.attempts)
