@@ -61,7 +61,7 @@ def get_custom_hints_message(curr_slot,no_of_hints):
     hints_finished_info = 'No more hints available for this question'
     if curr_slot < no_of_hints:
         return custom_info
-    else
+    else:
         return hints_finished_info
 
 def available_hints(request):
