@@ -260,6 +260,8 @@ class hunt_view(object):
                         #given the input in form we need to convert it into compressed form
                         #i.e no spaces and all lowercase for comparison with correct answer
                         given_answer = clean_answer(given_answer)
+                        if len(given_answer) > 50:
+                            given_answer = given_answer[:50]
                         #save  whatever user gave as input into feed
                         #only going to store last 15 inputs
                         feed = (user_question_data.feed)
