@@ -144,7 +144,7 @@ def available_hints(request):
     user_question_data.save()
     return JsonResponse(hint_array)
 
-def update_question_score(player_question_data,sttempts):
+def update_question_score(player_question_data,sattempts):
     """
         Before:
         This was to update the score of the user on the basis of time he took to solve the question.
