@@ -8,5 +8,5 @@ urlpatterns = [
     path('',hunt_view.index,name='hunt_view'),
     # path('nimda_control/',admin_view.index,name='admin_view'),
     # path('bonus_hint/',hunt_view.get_bonus_hint,name='bonus_hint_view')
-    path('get_hint/',hunt_view.get_hint,name='hint_view')
+    # path('get_hint/',hunt_view.get_hint,name='hint_view')
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
