@@ -251,6 +251,7 @@ class hunt_view(object):
                 return render(request,'hunt/timed_out.html',{'username':firstname, 'level':user_level})
             else:
                 if request.method == 'POST':
+                    return HttpResponse("Boom")
                     form = answer_form(request.POST)
                     if form.is_valid():
                         current_user = request.user
