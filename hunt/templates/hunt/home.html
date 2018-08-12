@@ -77,7 +77,7 @@
 
 {%block custom_js %}
     <script>
-        $('.hint-btn').click(function(){
+        function get_accessed_hints(){
             $.ajax({
                 url : "{% url 'hunt_view' %}", // the endpoint
                 // handle a successful response
@@ -100,6 +100,10 @@
                     console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
                 }
             });
+        }
+        $('.hint-btn').click(function(){
+            get_accessed_hints();
         });
+        get_accessed_hints();
     </script>
 {% endblock %}

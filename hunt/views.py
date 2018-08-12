@@ -289,8 +289,9 @@ class hunt_view(object):
                     try:
                         question = Question.objects.get(level = user_level)
                         form = answer_form()
-                        bonus_data = get_bonus_hints(request.user)
-                        return render(request,'hunt/home.html', {'username':firstname, 'level':user_level , 'question':question , 'form': form,'bonus':bonus_data})
+                        #bonus_data = get_bonus_hints(request.user)
+                        return render(request,'hunt/home.html', {'username':firstname, 'level':user_level , 'question':question , 'form': form})
+                        #return render(request,'hunt/home.html', {'username':firstname, 'level':user_level , 'question':question , 'form': form,'bonus':bonus_data})
                     except ObjectDoesNotExist:
                         return render(request,'hunt/success.html',{'username':firstname})
         else:
