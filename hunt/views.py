@@ -264,6 +264,7 @@ class hunt_view(object):
                         given_answer = clean_answer(given_answer)
                         if len(given_answer) > 50:
                             given_answer = given_answer[:50]
+                        return HttpResponse("Boom")
                         #save  whatever user gave as input into feed
                         #only going to store last 15 inputs
                         feed = (user_question_data.feed)
