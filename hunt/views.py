@@ -251,7 +251,8 @@ class hunt_view(object):
                 return render(request,'hunt/timed_out.html',{'username':firstname, 'level':user_level})
             else:
                 if request.method == 'POST':
-                    return HttpResponse("Boom")
+                    # return HttpResponse("Boom")
+                    print(request.POST)
                     form = answer_form(request.POST)
                     if form.is_valid():
                         current_user = request.user
@@ -265,7 +266,7 @@ class hunt_view(object):
                         given_answer = clean_answer(given_answer)
                         if len(given_answer) > 50:
                             given_answer = given_answer[:50]
-                        return HttpResponse("Boom")
+                        # return HttpResponse("Boom")
                         #save  whatever user gave as input into feed
                         #only going to store last 15 inputs
                         feed = (user_question_data.feed)
@@ -299,6 +300,8 @@ class hunt_view(object):
                             messages.success(request, get_random_success_message())
                         else:
                             messages.error(request, get_random_error_message())
+                        return HttpResponseRedirect('/hunt')
+                    else:
                         return HttpResponseRedirect('/hunt')
                 elif request.is_ajax():
                     return available_hints(request)
