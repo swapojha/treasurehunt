@@ -262,12 +262,13 @@ class hunt_view(object):
                         given_answer = clean_answer(given_answer)
                         #save  whatever user gave as input into feed
                         #only going to store last 15 inputs
-                        count = user_question_data.feed.count('|')
+                        count = (user_question_data.feed).count('|')
                         if(count>=15):
-                            pos = user_question_data.feed.find('|')
+                            pos = (user_question_data.feed).find('|')
                             user_question_data.feed = user_question_data[pos+1:]
                         user_question_data.feed += given_answer
                         user_question_data.feed += '|'
+                        user_question_data.save()
                         #end saving
                         valid_answer = Question.objects.get(level = request.user.game_user.level).answer
                         if valid_answer == given_answer:
