@@ -34,7 +34,7 @@ class Question(models.Model):
     link = models.CharField(max_length=200,null=True,blank=True)
     ques_type = models.CharField(max_length=10,null=True,blank=True)
     score = models.IntegerField(default=0)
-    answer = models.CharField(max_length=100,null=True,blank=True)
+    answer = models.CharField(max_length=50,null=True,blank=True)
     sattempts = models.IntegerField(default=0)
     def __str__(self):
         return "Level: "+str(self.level)
