@@ -224,6 +224,8 @@ def get_random_error_message():
     return msg[random.randint(0,len(msg)-1)]
 
 def clean_answer(answer):
+    if not answer:
+        return ''
     cleaned=''
     for letter in answer:
         if letter>='a' and letter <='z':
