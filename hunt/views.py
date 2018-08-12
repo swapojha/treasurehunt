@@ -11,61 +11,74 @@ from django.http import JsonResponse
 from django.utils.dateparse import parse_datetime
 import random
 
-first_bonus_limit=30
-second_bonus_limit=40
-first_bonus_penalty=19
-second_bonus_penalty=29
+# first_bonus_limit=30
+# second_bonus_limit=40
+# first_bonus_penalty=19
+# second_bonus_penalty=29
 
-def get_bonus_hints(player):
-    # first_bonus_limit=600
-    # second_bonus_limit=1200
-    user = player.game_user
-    quest = Question.objects.get(level = player.game_user.level)
-    user_question_data = GameUserData.objects.get(game_user=user,question=quest)
-    st_time = user_question_data.start_time
-    time_delta = timezone.now()-st_time
-    diff_in_minutes = time_delta.total_seconds()/60
-    hints = Hint.objects.get(question = quest)
-    bonus_hints = None
-    if diff_in_minutes > second_bonus_limit:
-        if not user_question_data.hint_5_used:
-            bonus_hints = {
-                'show':[],
-                'hide':['first']
-            }
-        else:
-            bonus_hints = {
-                'show':[hints.hint_5],
-                'hide':[]
-            }
-        if not user_question_data.hint_6_used:
-            bonus_hints['hide'].append('second')
-        else:
-            bonus_hints['show'].append(hints.hint_6)
-    elif diff_in_minutes > first_bonus_limit:
-        if not user_question_data.hint_5_used:
-            bonus_hints = {
-                'show':[],
-                'hide':['first']
-            }
-        else:
-            bonus_hints = {
-                'show':[hints.hint_5],
-                'hide':[]
-            }
-    return bonus_hints
+# def get_bonus_hints(player):
+#     # first_bonus_limit=600
+#     # second_bonus_limit=1200
+#     user = player.game_user
+#     quest = Question.objects.get(level = player.game_user.level)
+#     user_question_data = GameUserData.objects.get(game_user=user,question=quest)
+#     st_time = user_question_data.start_time
+#     time_delta = timezone.now()-st_time
+#     diff_in_minutes = time_delta.total_seconds()/60
+#     hints = Hint.objects.get(question = quest)
+#     bonus_hints = None
+#     if diff_in_minutes > second_bonus_limit:
+#         if not user_question_data.hint_5_used:
+#             bonus_hints = {
+#                 'show':[],
+#                 'hide':['first']
+#             }
+#         else:
+#             bonus_hints = {
+#                 'show':[hints.hint_5],
+#                 'hide':[]
+#             }
+#         if not user_question_data.hint_6_used:
+#             bonus_hints['hide'].append('second')
+#         else:
+#             bonus_hints['show'].append(hints.hint_6)
+#     elif diff_in_minutes > first_bonus_limit:
+#         if not user_question_data.hint_5_used:
+#             bonus_hints = {
+#                 'show':[],
+#                 'hide':['first']
+#             }
+#         else:
+#             bonus_hints = {
+#                 'show':[hints.hint_5],
+#                 'hide':[]
+#             }
+#     return bonus_hints
+
+
+def get_custom_hints_message(curr_slot,no_of_hints):
+    custom_info = 'No more hints available as of now.'
+    hints_finished_info = 'No more hints available for this question'
+    if curr_slot < no_of_hints:
+        return custom_info
+    else
+        return hints_finished_info
 
 def available_hints(request):
     first_hint_time = 5
     second_hint_time = 10
     third_hint_time = 15
     fourth_hint_time = 20
+    fifth_hint_time = 25
+    sixth_hint_time = 30
+    seventh_hint_time = 35
     custom_info = 'No more hints available as of now.'
     hints_finished_info = 'No more hints available for this question'
     user = request.user.game_user
     quest = Question.objects.get(level = request.user.game_user.level)
     user_question_data = GameUserData.objects.get(game_user=user,question=quest)
     hints = Hint.objects.get(question = quest)
+    no_of_hints = hints.no_of_hints
     st_time = user_question_data.start_time
     time_delta = timezone.now()-st_time
     diff_in_minutes = time_delta.total_seconds()/60
@@ -73,32 +86,59 @@ def available_hints(request):
         'hints':[],
         'custom_info':custom_info,
     }
-    if diff_in_minutes > fourth_hint_time:
+    if diff_in_minutes > seventh_hint_time:
         #show first four hints
         hint_array = {
-            'hints':[hints.hint_1,hints.hint_2,hints.hint_3,hints.hint_4],
+            'hints':[hints.hint_1,hints.hint_2,hints.hint_3,hints.hint_4,hints.hint_5,hints.hint_6,hints.hint_7],
             'custom_info':hints_finished_info,
+        }
+        user_question_data.hint_used = 7
+    elif diff_in_minutes > sixth_hint_time:
+        #show first four hints
+        to_show_info = get_custom_hints_message(6,no_of_hints)
+        hint_array = {
+            'hints':[hints.hint_1,hints.hint_2,hints.hint_3,hints.hint_4,hints.hint_5,hints.hint_6],
+            'custom_info':to_show_info,
+        }
+        user_question_data.hint_used = 6
+    elif diff_in_minutes > fifth_hint_time:
+        #show first four hints
+        to_show_info = get_custom_hints_message(5,no_of_hints)
+        hint_array = {
+            'hints':[hints.hint_1,hints.hint_2,hints.hint_3,hints.hint_4,hints.hint_5],
+            'custom_info':to_show_info,
+        }
+        user_question_data.hint_used = 5
+    elif diff_in_minutes > fourth_hint_time:
+        #show first four hints
+        to_show_info = get_custom_hints_message(4,no_of_hints)
+        hint_array = {
+            'hints':[hints.hint_1,hints.hint_2,hints.hint_3,hints.hint_4],
+            'custom_info':to_show_info,
         }
         user_question_data.hint_used = 4
     elif diff_in_minutes > third_hint_time:
         #show first three hints
+        to_show_info = get_custom_hints_message(3,no_of_hints)
         hint_array = {
             'hints':[hints.hint_1,hints.hint_2,hints.hint_3],
-            'custom_info':custom_info,
+            'custom_info':to_show_info,
         }
         user_question_data.hint_used = 3
     elif diff_in_minutes > second_hint_time:
         #show first two hints
+        to_show_info = get_custom_hints_message(2,no_of_hints)
         hint_array = {
             'hints':[hints.hint_1,hints.hint_2],
-            'custom_info':custom_info,
+            'custom_info':to_show_info,
         }
         user_question_data.hint_used = 2
     elif diff_in_minutes > first_hint_time:
         #show first hint
+        to_show_info = get_custom_hints_message(1,no_of_hints)
         hint_array = {
             'hints':[hints.hint_1],
-            'custom_info':custom_info,
+            'custom_info':to_show_info,
         }
         user_question_data.hint_used = 1
     user_question_data.save()
@@ -150,7 +190,7 @@ def update_question_score(player_question_data,sttempts):
 
 def check_timeout(game_user):
     time_limit = 120
-    no_of_attempts = 20
+    no_of_attempts = 80
     if(game_user.last_attempt):
         attempts = game_user.timeout_attempts
         last_attempt =  game_user.last_attempt
@@ -267,39 +307,39 @@ class hunt_view(object):
     #         messages.info(request, 'You need to login first.')
     #         return HttpResponseRedirect('/')
 
-    def get_bonus_hint(request):
-        if request.user.is_authenticated:
-            user = request.user.game_user
-            quest = Question.objects.get(level = request.user.game_user.level)
-            user_question_data = GameUserData.objects.get(game_user=user,question=quest)
-            hints = Hint.objects.get(question = quest)
-            st_time = user_question_data.start_time
-            time_delta = timezone.now()-st_time
-            diff_in_minutes = time_delta.total_seconds()/60
-            hint_id = request.GET.get('id','')
-            hint_data = {
-                'hint':[],
-            }
-            if hint_id == 'first' and diff_in_minutes > first_bonus_limit:
-                hint_data = {
-                    'hint': [hints.hint_5],
-                }
-                user_question_data.hint_5_used = True
-                user_question_data.score -= first_bonus_penalty
-                user_question_data.save()
-                hints.save()
-            elif hint_id == 'second' and diff_in_minutes > second_bonus_limit:
-                hint_data = {
-                    'hint': [hints.hint_6],
-                }
-                user_question_data.hint_6_used = True
-                user_question_data.score -= second_bonus_penalty
-                user_question_data.save()
-                hints.save()
-            return JsonResponse(hint_data)
-        else:
-            messages.info(request, 'You need to login first.')
-            return HttpResponseRedirect('/')
+    # def get_bonus_hint(request):
+    #     if request.user.is_authenticated:
+    #         user = request.user.game_user
+    #         quest = Question.objects.get(level = request.user.game_user.level)
+    #         user_question_data = GameUserData.objects.get(game_user=user,question=quest)
+    #         hints = Hint.objects.get(question = quest)
+    #         st_time = user_question_data.start_time
+    #         time_delta = timezone.now()-st_time
+    #         diff_in_minutes = time_delta.total_seconds()/60
+    #         hint_id = request.GET.get('id','')
+    #         hint_data = {
+    #             'hint':[],
+    #         }
+    #         if hint_id == 'first' and diff_in_minutes > first_bonus_limit:
+    #             hint_data = {
+    #                 'hint': [hints.hint_5],
+    #             }
+    #             user_question_data.hint_5_used = True
+    #             user_question_data.score -= first_bonus_penalty
+    #             user_question_data.save()
+    #             hints.save()
+    #         elif hint_id == 'second' and diff_in_minutes > second_bonus_limit:
+    #             hint_data = {
+    #                 'hint': [hints.hint_6],
+    #             }
+    #             user_question_data.hint_6_used = True
+    #             user_question_data.score -= second_bonus_penalty
+    #             user_question_data.save()
+    #             hints.save()
+    #         return JsonResponse(hint_data)
+    #     else:
+    #         messages.info(request, 'You need to login first.')
+    #         return HttpResponseRedirect('/')
 
 
 class admin_view(object):

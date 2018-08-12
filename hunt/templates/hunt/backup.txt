@@ -1,0 +1,54 @@
+// $('.bonus-hint-btn').click(function(){
+        //     var data_val = $(this).attr('data-val');
+        //     var this_hint = this;
+        //     $.ajax({
+        //         url : "{% url 'bonus_hint_view' %}", // the endpoint
+        //         // handle a successful response
+        //         data : {
+        //             'id':data_val,
+        //         },
+        //         success : function(json) {
+        //             console.log(json); // log the returned json to the console
+        //             response='';
+        //             if (json.hint.length > 0){
+        //                 $(this_hint).parent().parent().parent().html('<li>'+json.hint+'</li>');
+        //             }
+        //             console.log("success"); // another sanity check
+        //         },
+        //         // handle a non-successful response
+        //         error : function(xhr,errmsg,err) {
+        //             $('#bonus_results').html("<div class='alert alert-danger radius' data-alert>Oops! We have encountered an error: "+errmsg+
+        //                 " <a href='#' class='close'>&times;</a></div>"); // add the error to the dom
+        //             console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+        //         }
+        //     });
+        // });
+
+
+{% if bonus %}
+    <div class="container hint-container bonus-hint-container">
+        <div class="row justify-content-md-center">
+            <div class="col-sm-12">
+                <h1>Bonus Hints</h1>
+            </div>
+            {% for hints in bonus.show %}
+                <div class="col-sm-12" id="{{hints}}-content">
+                    <li>{{hints}}</li>
+                </div>
+            {% endfor %}
+            {% for hints in bonus.hide %}
+                <div class="col-sm-12">
+                    <div class="row">
+                        <div class="col-sm-12 col-md-8 pt-1" id="{{hints}}">
+                            <img class="img-responsive" id="blur" src="../../static/img/foreverblur.png"/>
+                        </div>
+                        <div class="col-sm-12 col-md-4">
+                            <button class="btn btn-primary bonus-hint-btn mb-2" data-val="{{hints}}">Get</button>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+            <div class="col-sm-12" id="bonus_results"></div>
+        </div>
+    </div>
+{% endif %}
