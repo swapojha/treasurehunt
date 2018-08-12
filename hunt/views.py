@@ -264,14 +264,14 @@ class hunt_view(object):
                         #only going to store last 15 inputs
                         feed = (user_question_data.feed)
                         if feed:
-                            count = feed.count('|')
+                            count = feed.count(' ')
                             if(count>=15):
-                                pos = feed.find('|')
+                                pos = feed.find(' ')
                                 feed = feed[pos+1:]
                             feed += given_answer
-                            feed += '|'
+                            feed += ' '
                         else:
-                            feed = given_answer+'|'
+                            feed = given_answer+' '
                         user_question_data.feed = feed
                         user_question_data.save()
                         #end saving
