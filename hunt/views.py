@@ -304,6 +304,7 @@ class hunt_view(object):
                             messages.error(request, get_random_error_message())
                         return HttpResponseRedirect('/hunt')
                     else:
+                        messages.error(request, get_random_error_message())
                         return HttpResponseRedirect('/hunt')
                 elif request.is_ajax():
                     return available_hints(request)
