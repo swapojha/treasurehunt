@@ -174,11 +174,11 @@ def update_question_score(player_question_data,sattempts):
         No deduction on the basis of time he/she took.
         We will deduct marks on the basis of how many people have solved this question before him/her.
     """
-    deduction_limit_one = 10
+    deduction_limit_one = 20
     score_deduct_one = 3
-    deduction_limit_two = 20
+    deduction_limit_two = 40
     score_deduct_two = 6
-    deduction_limit_three = 30
+    deduction_limit_three = 50
     score_deduct_three = 8
     if sattempts > deduction_limit_three:
         player_question_data.score -= score_deduct_three
@@ -190,7 +190,7 @@ def update_question_score(player_question_data,sattempts):
 
 def check_timeout(game_user):
     time_limit = 120
-    no_of_attempts = 80
+    no_of_attempts = 60
     if(game_user.last_attempt):
         attempts = game_user.timeout_attempts
         last_attempt =  game_user.last_attempt
