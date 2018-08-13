@@ -182,9 +182,9 @@ def update_question_score(player_question_data,sattempts):
     score_deduct_three = 8
     if sattempts > deduction_limit_three:
         player_question_data.score -= score_deduct_three
-    elif sttempts > deduction_limit_two:
+    elif sattempts > deduction_limit_two:
         player_question_data.score -= score_deduct_two
-    elif sttempts > deduction_limit_one:
+    elif sattempts > deduction_limit_one:
         player_question_data.score -= score_deduct_one
     player_question_data.save()
 
