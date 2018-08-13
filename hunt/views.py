@@ -234,6 +234,8 @@ def clean_answer(answer):
             cleaned+=letter
         elif letter >='0' and letter <='9':
             cleaned+=letter
+        elif letter != ' ':
+            cleaned+=answer
     cleaned = cleaned.lower()
     return cleaned
 
