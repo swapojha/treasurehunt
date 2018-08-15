@@ -418,7 +418,7 @@ class hunt_view(object):
                         # messages.error(request, get_random_error_message())
                         # return HttpResponseRedirect('/hunt')
             else:
-                messages.info(request, 'You need to login first.')    
+                messages.info(request, 'Invalid url')    
                 return HttpResponseRedirect('/')    
         else:
             messages.info(request, 'You need to login first.')    
