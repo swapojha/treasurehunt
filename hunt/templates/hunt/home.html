@@ -24,10 +24,10 @@
             </ul>
         </div>
         {% endif %}
-        <div class="success">
+        <div class="success col-sm-12 text-center">
 
         </div>
-        <div class="error">
+        <div class="error col-sm-12 text-center">
 
         </div>
       </div>
@@ -96,6 +96,7 @@
                         console.log(json);
                         console.log("success");
                         $('.btn-info').css('display','block');
+                        $('.btn-info').css('margin','auto');
                         if(json.blocked){
                             window.location.reload();
                         }
@@ -107,7 +108,7 @@
                             $('.error').html(error_elem);
                             setTimeout(function(){
                                 $('.error').html('');
-                            },2000);
+                            },3000);
                         }
                         else if(json.success){
                             var success_elem = '<div class="alert alert-success"><strong>'+json.success+'</strong></div>';
@@ -120,7 +121,7 @@
                             $('.success').html(success_elem);
                             setTimeout(function(){
                                 $('.success').html('');
-                            },2000);
+                            },3000);
                         }
                     },
                     error : function(xhr,errmsg,err) {
