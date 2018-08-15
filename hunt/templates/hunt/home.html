@@ -85,6 +85,44 @@
 {%block custom_js %}
     <script>
         $(function() {
+            function success(json){
+                console.log(json);
+                console.log("success");
+                $('.btn-info').css('display','block');
+                $('.btn-info').addClass('top-space');
+                $('.loader').css('display','none');
+                if(json.blocked){
+                    window.location.reload();
+                }
+                if(json.timeout){
+                    window.location.reload();
+                }
+                if(json.error){
+                    var error_elem = '<div class="alert alert-danger"><strong>'+json.error+'</strong></div>';
+                    $('.error').html(error_elem);
+                    setTimeout(function(){
+                        $('.error').html('');
+                    },3000);
+                }
+                else if(json.success){
+                    var success_elem = '<div class="alert alert-success"><strong>'+json.success+'</strong></div>';
+                    //Right now only images questions are there
+                    //So right now hardcoding only for image type questions
+                    //Make sure you extend it accordingly later
+                    if(json.img_link){
+                        $('#img-ques').attr('src',json.img_link);
+                        $('#level').html(json.level);
+                        //hardcoded part ends
+                        $('.success').html(success_elem);
+                        setTimeout(function(){
+                            $('.success').html('');
+                        },3000);
+                    }
+                    else{
+                        window.location.reload();
+                    }
+                }
+            }
             $('#ansform').on('submit',function(event){
                 $('.loader').css('display','block');
                 event.preventDefault();
@@ -97,42 +135,8 @@
                     type : "POST",
                     data : { answer : user_answer },
                     success : function(json){
-                        console.log(json);
-                        console.log("success");
-                        $('.btn-info').css('display','block');
-                        $('.btn-info').addClass('top-space');
-                        $('.loader').css('display','none');
-                        if(json.blocked){
-                            window.location.reload();
-                        }
-                        if(json.timeout){
-                            window.location.reload();
-                        }
-                        if(json.error){
-                            var error_elem = '<div class="alert alert-danger"><strong>'+json.error+'</strong></div>';
-                            $('.error').html(error_elem);
-                            setTimeout(function(){
-                                $('.error').html('');
-                            },3000);
-                        }
-                        else if(json.success){
-                            var success_elem = '<div class="alert alert-success"><strong>'+json.success+'</strong></div>';
-                            //Right now only images questions are there
-                            //So right now hardcoding only for image type questions
-                            //Make sure you extend it accordingly later
-                            if(json.img_link){
-                                $('#img-ques').attr('src',json.img_link);
-                                $('#level').html(json.level);
-                                //hardcoded part ends
-                                $('.success').html(success_elem);
-                                setTimeout(function(){
-                                    $('.success').html('');
-                                },3000);
-                            }
-                            else{
-                                window.location.reload();
-                            }
-                        }
+                        // localStorage.setItem("json",json);
+                        success(json);       
                     },
                     error : function(xhr,errmsg,err) {
                         $('#results').html("<div class='alert alert-danger radius' data-alert>Oops! We have encountered an error: "+errmsg+
@@ -141,6 +145,12 @@
                     } 
                 })
             });
+            window.onpopstate = function (e) {
+                e.preventDefault();
+                window.location.reload();
+                // var res = localStorage.getItem('json');         
+                // success(res);
+            }
             function get_accessed_hints(){
                 $.ajax({
                     url : "{% url 'hint_view' %}", // the endpoint
