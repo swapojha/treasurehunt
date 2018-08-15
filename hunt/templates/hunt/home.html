@@ -148,7 +148,8 @@
             window.onpopstate = function (e) {
                 e.preventDefault();
                 window.location.reload();
-                // var res = localStorage.getItem('json');         
+                console.log("calling reload");
+                var res = localStorage.getItem('json');         
                 success(res);
             }
             function get_accessed_hints(){
