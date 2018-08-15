@@ -174,11 +174,11 @@ def update_question_score(player_question_data,sattempts):
         No deduction on the basis of time he/she took.
         We will deduct marks on the basis of how many people have solved this question before him/her.
     """
-    deduction_limit_one = 20
+    deduction_limit_one = 15
     score_deduct_one = 3
-    deduction_limit_two = 40
+    deduction_limit_two = 30
     score_deduct_two = 6
-    deduction_limit_three = 50
+    deduction_limit_three = 45
     score_deduct_three = 8
     if sattempts > deduction_limit_three:
         player_question_data.score -= score_deduct_three
