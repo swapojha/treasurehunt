@@ -106,9 +106,10 @@
                 }
                 else if(json.success){
                     var success_elem = '<div class="alert alert-success"><strong>'+json.success+'</strong></div>';
+                    $('.success').html(success_elem);
                     setTimeout(function(){
                         window.location.reload();
-                    },2000);
+                    },1000);
                 }
             }
             $('#ansform').on('submit',function(event){
