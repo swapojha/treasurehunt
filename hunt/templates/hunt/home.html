@@ -58,7 +58,7 @@
                         {{form.answer}}
                     </div>
                     <br>
-                    <div class="col-sm-12 px-4">
+                    <div class="col-sm-12">
                         <button class="btn btn-info button" type='submit'>Submit</button>
                     </div>
                 </div>
@@ -88,17 +88,14 @@
                 event.preventDefault();
                 console.log("Form submitted");
                 $('.btn-info').css('display','none');
-                var user_answer = $('#answer').val();
-                $('#answer').val("");
                 $.ajax({
                     url : "{% url 'answer_view' %}",
                     type : "POST",
-                    data : { answer : user_answer },
+                    data : { answer : $('#id_answer').val() },
                     success : function(json){
                         console.log(json);
                         console.log("success");
-                        $('.btn-info').css('display','block');
-                        $('.btn-info').css('margin','auto');
+                        $('.btn-info').addClass('top-space');
                         if(json.blocked){
                             window.location.reload();
                         }
@@ -117,13 +114,18 @@
                             //Right now only images questions are there
                             //So right now hardcoding only for image type questions
                             //Make sure you extend it accordingly later
-                            $('#img-ques').attr('src',json.img_link);
-                            $('#level').html(json.level);
-                            //hardcoded part ends
-                            $('.success').html(success_elem);
-                            setTimeout(function(){
-                                $('.success').html('');
-                            },3000);
+                            if(json.img_link){
+                                $('#img-ques').attr('src',json.img_link);
+                                $('#level').html(json.level);
+                                //hardcoded part ends
+                                $('.success').html(success_elem);
+                                setTimeout(function(){
+                                    $('.success').html('');
+                                },3000);
+                            }
+                            else{
+                                window.location.reload();
+                            }
                         }
                     },
                     error : function(xhr,errmsg,err) {

@@ -153,3 +153,9 @@ input {
   max-width:400px;
   height:2.5em;
 }
+
+.top-space{
+  display:block;
+  margin:auto;
+  margin-top:20px;
+}
