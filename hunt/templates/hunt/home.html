@@ -106,21 +106,7 @@
                 }
                 else if(json.success){
                     var success_elem = '<div class="alert alert-success"><strong>'+json.success+'</strong></div>';
-                    //Right now only images questions are there
-                    //So right now hardcoding only for image type questions
-                    //Make sure you extend it accordingly later
-                    if(json.img_link){
-                        $('#img-ques').attr('src',json.img_link);
-                        $('#level').html(json.level);
-                        //hardcoded part ends
-                        $('.success').html(success_elem);
-                        setTimeout(function(){
-                            $('.success').html('');
-                        },3000);
-                    }
-                    else{
-                        window.location.reload();
-                    }
+                    window.location.reload();
                 }
             }
             $('#ansform').on('submit',function(event){
