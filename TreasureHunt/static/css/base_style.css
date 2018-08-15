@@ -30,9 +30,20 @@ button{
 html,
 body {
   height: 100%;
-  background-color: #333;
+  background-image:url("../img/tback.jpg");
 }
-
+.loader{
+  position:absolute;
+  top:0;
+  left:0;
+  right:0;
+  bottom:0;
+  display: none;
+}
+.loader > img{
+  position:absolute;
+  top:50%;
+}
 body {
   display: -ms-flexbox;
   display: -webkit-box;
