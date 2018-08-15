@@ -135,7 +135,7 @@
                     type : "POST",
                     data : { answer : user_answer },
                     success : function(json){
-                        // localStorage.setItem("json",json);
+                        localStorage.setItem("json",json);
                         success(json);       
                     },
                     error : function(xhr,errmsg,err) {
