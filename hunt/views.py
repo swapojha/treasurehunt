@@ -65,13 +65,13 @@ def get_custom_hints_message(curr_slot,no_of_hints):
         return hints_finished_info
 
 def available_hints(request):
-    first_hint_time = 5
-    second_hint_time = 10
-    third_hint_time = 15
-    fourth_hint_time = 20
-    fifth_hint_time = 25
-    sixth_hint_time = 30
-    seventh_hint_time = 35
+    first_hint_time = 10
+    second_hint_time = 20
+    third_hint_time = 30
+    fourth_hint_time = 40
+    fifth_hint_time = 50
+    sixth_hint_time = 60
+    seventh_hint_time = 70
     custom_info = 'No more hints available as of now.'
     hints_finished_info = 'No more hints available for this question'
     user = request.user.game_user
@@ -190,7 +190,7 @@ def update_question_score(player_question_data,sattempts):
 
 def check_timeout(game_user):
     time_limit = 120
-    no_of_attempts = 20
+    no_of_attempts = 40
     if(game_user.last_attempt):
         attempts = game_user.timeout_attempts
         last_attempt =  game_user.last_attempt

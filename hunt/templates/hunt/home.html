@@ -18,9 +18,9 @@
                 <div
                 {% if message.tags %}
                     {% if message.tags == 'error' %}
-                        class ="alert alert-danger"
+                        class ="alert alert-danger mx-auto"
                     {% else %}
-                        class="alert alert-{{ message.tags }}"
+                        class="alert alert-{{ message.tags }} mx-auto"
                     {% endif %}
                 {% endif %}><strong>{{ message }}</strong></div>
                 {% endfor %}
@@ -98,14 +98,14 @@
                     $('.btn-info').css('display','block');
                     $('.btn-info').addClass('top-space');
                     $('.loader').css('display','none');
-                    var error_elem = '<div class="alert alert-danger"><strong>'+json.error+'</strong></div>';
+                    var error_elem = '<div class="alert alert-danger mx-auto"><strong>'+json.error+'</strong></div>';
                     $('.error').html(error_elem);
                     setTimeout(function(){
                         $('.error').html('');
                     },3000);
                 }
                 else if(json.success){
-                    var success_elem = '<div class="alert alert-success"><strong>'+json.success+'</strong></div>';
+                    var success_elem = '<div class="alert alert-success mx-auto"><strong>'+json.success+'</strong></div>';
                     $('.success').html(success_elem);
                     setTimeout(function(){
                         window.location.reload();
