@@ -421,10 +421,8 @@ class hunt_view(object):
                 messages.info(request, 'You need to login first.')    
                 return HttpResponseRedirect('/')    
         else:
-            user_data = {
-                'error' : "You need to login first."
-            }
-            return JsonResponse(user_data)
+            messages.info(request, 'You need to login first.')    
+            return HttpResponseRedirect('/')
 
     def get_hint(request):
         if request.user.is_authenticated:
