@@ -347,7 +347,7 @@ class hunt_view(object):
                 else:
                     form = answer_form(request.POST)
                     if form.is_valid():
-                        return JsonResponse()
+                        return JsonResponse({'kam':False})
                         current_user = request.user
                         quest = Question.objects.get(level = request.user.game_user.level)
                         user_question_data = GameUserData.objects.get(game_user=current_user.game_user,question=quest)
@@ -401,7 +401,7 @@ class hunt_view(object):
                             user_data['success'] = get_random_success_message()
                             #messages.success(request, get_random_success_message())
                         else:
-                            return JsonResponse()
+                            return JsonResponse({'bam':False})
                             user_data['error'] = get_random_error_message()
                             #messages.error(request, get_random_error_message())
                         return JsonResponse(user_data)
