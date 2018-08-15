@@ -327,7 +327,7 @@ class hunt_view(object):
 
     def check_answer(request):
         if request.user.is_authenticated:
-            if request.method == "POST":
+            if request.method == "GET":
                 game_user = GameUser.objects.get(user = request.user)
                 if game_user.blocked:
                     user_data = {
