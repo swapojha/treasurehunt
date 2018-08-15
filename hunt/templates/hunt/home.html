@@ -135,7 +135,7 @@
                     type : "POST",
                     data : { answer : user_answer },
                     success : function(json){
-                        localStorage.setItem("json",json);
+                        // localStorage.setItem("json",json);
                         success(json);       
                     },
                     error : function(xhr,errmsg,err) {
@@ -145,13 +145,13 @@
                     } 
                 })
             });
-            window.onpopstate = function (e) {
-                e.preventDefault();
-                alert("Location reload");
-                window.location.reload();
-                var res = localStorage.getItem('json');         
-                success(res);
-            }
+            // window.onpopstate = function (e) {
+            //     e.preventDefault();
+            //     alert("Location reload");
+            //     window.location.reload();
+            //     var res = localStorage.getItem('json');         
+            //     success(res);
+            // }
             function get_accessed_hints(){
                 $.ajax({
                     url : "{% url 'hint_view' %}", // the endpoint
