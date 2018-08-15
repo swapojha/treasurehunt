@@ -346,9 +346,9 @@ class hunt_view(object):
                     # return render(request,'hunt/timed_out.html',{'username':firstname, 'level':user_level})
                 else:
                     form = answer_form(request.POST)
-                    return JsonResponse({'hell':False})
+                    #return JsonResponse({'hell':False})
                     if form.is_valid():
-                        return JsonResponse({'kam':False})
+                        #return JsonResponse({'kam':False})
                         current_user = request.user
                         quest = Question.objects.get(level = request.user.game_user.level)
                         user_question_data = GameUserData.objects.get(game_user=current_user.game_user,question=quest)
@@ -402,11 +402,17 @@ class hunt_view(object):
                             user_data['success'] = get_random_success_message()
                             #messages.success(request, get_random_success_message())
                         else:
-                            return JsonResponse({'bam':False})
+                            #return JsonResponse({'bam':False})
                             user_data['error'] = get_random_error_message()
                             #messages.error(request, get_random_error_message())
                         return JsonResponse(user_data)
                     else:
+                        user_data = {
+                            'success' : None,
+                            'error' : None,
+                            'img_link' : None,
+                            'level': None
+                        }
                         user_data['error'] = get_random_error_message()
                         return JsonResponse(user_data)    
                         # messages.error(request, get_random_error_message())
