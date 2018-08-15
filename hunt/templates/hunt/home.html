@@ -95,6 +95,7 @@
                     success : function(json){
                         console.log(json);
                         console.log("success");
+                        $('.btn-info').css('display','block');
                         $('.btn-info').addClass('top-space');
                         if(json.blocked){
                             window.location.reload();
