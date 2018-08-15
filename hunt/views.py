@@ -379,7 +379,8 @@ class hunt_view(object):
                         user_data = {
                             'success' : None,
                             'error' : None,
-                            'img_link' : None
+                            'img_link' : None,
+                            'level': None
                         }
                         if valid_answer == given_answer:
                             quest.sattempts+=1
@@ -394,17 +395,16 @@ class hunt_view(object):
                                 next_quest = Question.objects.get(level = request.user.game_user.level)
                                 GameUserData.objects.create(game_user=current_user.game_user,question=next_quest,start_time=timezone.now(),score=next_quest.score)
                                 user_data['img_link'] = next_quest.link
+                                user_data['level'] = next_quest.level
                             except ObjectDoesNotExist:
                                 pass
                             user_data['success'] = get_random_success_message()
                             #messages.success(request, get_random_success_message())
                         else:
-                            user_data['img_link'] = quest.link
                             user_data['error'] = get_random_error_message()
                             #messages.error(request, get_random_error_message())
                         return JsonResponse(user_data)
                     else:
-                        user_data['img_link'] = quest.link
                         user_data['error'] = get_random_error_message()
                         return JsonResponse(user_data)    
                         # messages.error(request, get_random_error_message())

@@ -6,7 +6,7 @@
             <h2>Hello {{ username }}!</h2>
         </div>
         <div class="col-sm-12 col-md-6">
-            <h3><strong>Level : </strong>{{ level }}</h3>
+            <h3><strong>Level : </strong id="level">{{ level }}</h3>
         </div>
         {% if messages %}
         <div class="col-sm-12 col-md-12">
@@ -24,6 +24,12 @@
             </ul>
         </div>
         {% endif %}
+        <div class="success">
+
+        </div>
+        <div class="error">
+
+        </div>
       </div>
     <div class="row question">
         <div class="col-sm-12 col-md-12 center-align">
@@ -81,6 +87,7 @@
             $('#ansform').on('submit',function(event){
                 event.preventDefault();
                 console.log("Form submitted");
+                $('.btn-info').css('display','none');
                 $.ajax({
                     url : "{% url 'answer_view' %}",
                     type : "POST",
@@ -88,6 +95,33 @@
                     success : function(json){
                         console.log(json);
                         console.log("success");
+                        $('.btn-info').css('display','block');
+                        if(json.blocked){
+                            window.location.reload();
+                        }
+                        if(json.timeout){
+                            window.location.reload();
+                        }
+                        if(json.error){
+                            var error_elem = '<div class="alert alert-danger"><strong>'+json.error+'</strong></div>';
+                            $('.error').html(error_elem);
+                            setTimeout(function(){
+                                $('.error').html('');
+                            },2000);
+                        }
+                        else if(json.success){
+                            var success_elem = '<div class="alert alert-success"><strong>'+json.success+'</strong></div>';
+                            //Right now only images questions are there
+                            //So right now hardcoding only for image type questions
+                            //Make sure you extend it accordingly later
+                            $('#img-ques').attr('src',json.img_link);
+                            $('#level').html(json.level);
+                            //hardcoded part ends
+                            $('.success').html(success_elem);
+                            setTimeout(function(){
+                                $('.success').html('');
+                            },2000);
+                        }
                     },
                     error : function(xhr,errmsg,err) {
                         $('#results').html("<div class='alert alert-danger radius' data-alert>Oops! We have encountered an error: "+errmsg+
