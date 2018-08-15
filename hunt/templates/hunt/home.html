@@ -132,7 +132,7 @@
                 $('#id_answer').val('');
                 $.ajax({
                     url : "{% url 'answer_view' %}",
-                    type : "POST",
+                    type : "GET",
                     data : { answer : user_answer },
                     success : function(json){
                         // localStorage.setItem("json",json);
