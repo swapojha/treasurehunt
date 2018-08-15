@@ -346,7 +346,7 @@ class hunt_view(object):
                     # return render(request,'hunt/timed_out.html',{'username':firstname, 'level':user_level})
                 else:
                     # answer = request.POST.get('answer')
-                    form = answer_form(request.POST)
+                    form = answer_form(request.GET)
                     if form.is_valid():
                         current_user = request.user
                         quest = Question.objects.get(level = request.user.game_user.level)
