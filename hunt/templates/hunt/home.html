@@ -58,7 +58,7 @@
                         {{form.answer}}
                     </div>
                     <br>
-                    <div class="col-sm-12">
+                    <div class="col-sm-12 px-4">
                         <button class="btn btn-info button" type='submit'>Submit</button>
                     </div>
                 </div>
@@ -88,10 +88,12 @@
                 event.preventDefault();
                 console.log("Form submitted");
                 $('.btn-info').css('display','none');
+                var user_answer = $('#answer').val();
+                $('#answer').val("");
                 $.ajax({
                     url : "{% url 'answer_view' %}",
                     type : "POST",
-                    data : { answer : $('#answer').val() },
+                    data : { answer : user_answer },
                     success : function(json){
                         console.log(json);
                         console.log("success");
