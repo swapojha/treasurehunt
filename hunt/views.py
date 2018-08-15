@@ -346,6 +346,7 @@ class hunt_view(object):
                     # return render(request,'hunt/timed_out.html',{'username':firstname, 'level':user_level})
                 else:
                     form = answer_form(request.POST)
+                    return JsonResponse({'hell':False})
                     if form.is_valid():
                         return JsonResponse({'kam':False})
                         current_user = request.user
