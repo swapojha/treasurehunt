@@ -418,10 +418,8 @@ class hunt_view(object):
                         # messages.error(request, get_random_error_message())
                         # return HttpResponseRedirect('/hunt')
             else:
-                user_data = {
-                    'status' : False
-                }
-                return JsonResponse(user_data)    
+                messages.info(request, 'You need to login first.')    
+                return HttpResponseRedirect('/')    
         else:
             user_data = {
                 'error' : "You need to login first."
