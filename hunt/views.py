@@ -252,9 +252,100 @@ class hunt_view(object):
                 user_level = request.user.game_user.level
                 return render(request,'hunt/timed_out.html',{'username':firstname, 'level':user_level})
             else:
-                if request.method == 'POST':
-                    # return HttpResponse("Boom")
-                    print(request.POST)
+                # if request.method == 'POST':
+                #     # return HttpResponse("Boom")
+                #     print(request.POST)
+                #     form = answer_form(request.POST)
+                #     if form.is_valid():
+                #         current_user = request.user
+                #         quest = Question.objects.get(level = request.user.game_user.level)
+                #         user_question_data = GameUserData.objects.get(game_user=current_user.game_user,question=quest)
+                #         user_question_data.attempts += 1
+                #         user_question_data.save()
+                #         given_answer = form.cleaned_data['answer']
+                #         #given the input in form we need to convert it into compressed form
+                #         #i.e no spaces and all lowercase for comparison with correct answer
+                #         given_answer = clean_answer(given_answer)
+                #         if len(given_answer) > 50:
+                #             given_answer = given_answer[:50]
+                #         # return HttpResponse("Boom")
+                #         #save  whatever user gave as input into feed
+                #         #only going to store last 15 inputs
+                #         feed = (user_question_data.feed)
+                #         if feed:
+                #             count = feed.count(' ')
+                #             if(count>=15):
+                #                 pos = feed.find(' ')
+                #                 feed = feed[pos+1:]
+                #             feed += given_answer
+                #             feed += ' '
+                #         else:
+                #             feed = given_answer+' '
+                #         user_question_data.feed = feed
+                #         user_question_data.save()
+                #         #end saving
+                #         valid_answer = Question.objects.get(level = request.user.game_user.level).answer
+                #         if valid_answer == given_answer:
+                #             quest.sattempts+=1
+                #             quest.save()
+                #             # print("Updating score of question")
+                #             update_question_score(user_question_data,quest.sattempts)
+                #             user_question_data.end_time = timezone.now()
+                #             user_question_data.save()
+                #             current_user.game_user.levelup(user_question_data.score,timezone.now(),user_question_data.attempts)
+                #             current_user.game_user.save()
+                #             try:
+                #                 next_quest = Question.objects.get(level = request.user.game_user.level)
+                #                 GameUserData.objects.create(game_user=current_user.game_user,question=next_quest,start_time=timezone.now(),score=next_quest.score)
+                #             except ObjectDoesNotExist:
+                #                 pass
+                #             messages.success(request, get_random_success_message())
+                #         else:
+                #             messages.error(request, get_random_error_message())
+                #         return HttpResponseRedirect('/hunt')
+                #     else:
+                #         messages.error(request, get_random_error_message())
+                #         return HttpResponseRedirect('/hunt')
+                # # elif request.is_ajax():
+                # #     return available_hints(request)
+                # else:
+                    # social = request.user.social_auth.get(provider='facebook')
+                    # userid = social.uid
+                firstname = request.user.first_name
+                user_level = request.user.game_user.level
+                try:
+                    question = Question.objects.get(level = user_level)
+                    form = answer_form()
+                    #bonus_data = get_bonus_hints(request.user)
+                    return render(request,'hunt/home.html', {'username':firstname, 'level':user_level , 'question':question , 'form': form})
+                    #return render(request,'hunt/home.html', {'username':firstname, 'level':user_level , 'question':question , 'form': form,'bonus':bonus_data})
+                except ObjectDoesNotExist:
+                    return render(request,'hunt/success.html',{'username':firstname})
+        else:
+            messages.info(request, 'You need to login first.')
+            return HttpResponseRedirect('/')
+
+    def check_answer(request):
+        if request.user.is_authenticated:
+            if request.method = "POST":
+                game_user = GameUser.objects.get(user = request.user)
+                if game_user.blocked:
+                    user_data = {
+                        'blocked' : True
+                    }
+                    return JsonResponse(user_data)
+                user_timed_out = check_timeout(request.user.game_user)
+                if user_timed_out:
+                    firstname = request.user.first_name
+                    user_level = request.user.game_user.level
+                    user_data = {
+                        'blocked' : False,
+                        'timeout' : True,
+                    }
+                    return JsonResponse(user_data)
+                    # return render(request,'hunt/timed_out.html',{'username':firstname, 'level':user_level})
+                else:
+                    # answer = request.POST.get('answer')
                     form = answer_form(request.POST)
                     if form.is_valid():
                         current_user = request.user
@@ -285,6 +376,11 @@ class hunt_view(object):
                         user_question_data.save()
                         #end saving
                         valid_answer = Question.objects.get(level = request.user.game_user.level).answer
+                        user_data = {
+                            'success' : None,
+                            'error' : None,
+                            'img_link' : None
+                        }
                         if valid_answer == given_answer:
                             quest.sattempts+=1
                             quest.save()
@@ -297,43 +393,42 @@ class hunt_view(object):
                             try:
                                 next_quest = Question.objects.get(level = request.user.game_user.level)
                                 GameUserData.objects.create(game_user=current_user.game_user,question=next_quest,start_time=timezone.now(),score=next_quest.score)
+                                user_data['img_link'] = next_quest.link
                             except ObjectDoesNotExist:
                                 pass
-                            messages.success(request, get_random_success_message())
+                            user_data['success'] = get_random_success_message()
+                            #messages.success(request, get_random_success_message())
                         else:
-                            messages.error(request, get_random_error_message())
-                        return HttpResponseRedirect('/hunt')
+                            user_data['img_link'] = quest.link
+                            user_data['error'] = get_random_error_message()
+                            #messages.error(request, get_random_error_message())
+                        return JsonResponse(user_data)
                     else:
-                        messages.error(request, get_random_error_message())
-                        return HttpResponseRedirect('/hunt')
-                elif request.is_ajax():
-                    return available_hints(request)
-                else:
-                    # social = request.user.social_auth.get(provider='facebook')
-                    # userid = social.uid
-                    firstname = request.user.first_name
-                    user_level = request.user.game_user.level
-                    try:
-                        question = Question.objects.get(level = user_level)
-                        form = answer_form()
-                        #bonus_data = get_bonus_hints(request.user)
-                        return render(request,'hunt/home.html', {'username':firstname, 'level':user_level , 'question':question , 'form': form})
-                        #return render(request,'hunt/home.html', {'username':firstname, 'level':user_level , 'question':question , 'form': form,'bonus':bonus_data})
-                    except ObjectDoesNotExist:
-                        return render(request,'hunt/success.html',{'username':firstname})
+                        user_data['img_link'] = quest.link
+                        user_data['error'] = get_random_error_message()
+                        return JsonResponse(user_data)    
+                        # messages.error(request, get_random_error_message())
+                        # return HttpResponseRedirect('/hunt')
+            else:
+                user_data = {
+                    'status' : False
+                }
+                return JsonResponse(user_data)    
+        else:
+            user_data = {
+                'error' : "You need to login first."
+            }
+            return JsonResponse(user_data)
+
+    def get_hint(request):
+        if request.user.is_authenticated:
+            #Check time elapsed on this question.Depending on time elapsed send appropriate number of hints to the user
+            #First four hints have no score deduction
+            #Next four hints will have score deduction
+            return available_hints(request)
         else:
             messages.info(request, 'You need to login first.')
             return HttpResponseRedirect('/')
-
-    # def get_hint(request):
-    #     if request.user.is_authenticated:
-    #         #Check time elapsed on this question.Depending on time elapsed send appropriate number of hints to the user
-    #         #First four hints have no score deduction
-    #         #Next four hints will have score deduction
-    #         return available_hints(request)
-    #     else:
-    #         messages.info(request, 'You need to login first.')
-    #         return HttpResponseRedirect('/')
 
     # def get_bonus_hint(request):
     #     if request.user.is_authenticated:
