@@ -106,7 +106,9 @@
                 }
                 else if(json.success){
                     var success_elem = '<div class="alert alert-success"><strong>'+json.success+'</strong></div>';
-                    window.location.reload();
+                    setTimeout(function(){
+                        window.location.reload();
+                    },2000);
                 }
             }
             $('#ansform').on('submit',function(event){
