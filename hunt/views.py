@@ -190,7 +190,7 @@ def update_question_score(player_question_data,sattempts):
 
 def check_timeout(game_user):
     time_limit = 120
-    no_of_attempts = 60
+    no_of_attempts = 20
     if(game_user.last_attempt):
         attempts = game_user.timeout_attempts
         last_attempt =  game_user.last_attempt
