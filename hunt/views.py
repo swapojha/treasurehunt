@@ -327,7 +327,7 @@ class hunt_view(object):
 
     def check_answer(request):
         if request.user.is_authenticated:
-            if request.method == "GET":
+            if request.method == "POST":
                 game_user = GameUser.objects.get(user = request.user)
                 if game_user.blocked:
                     user_data = {
@@ -346,7 +346,7 @@ class hunt_view(object):
                     # return render(request,'hunt/timed_out.html',{'username':firstname, 'level':user_level})
                 else:
                     # answer = request.POST.get('answer')
-                    form = answer_form(request.GET)
+                    form = answer_form(request.POST)
                     if form.is_valid():
                         current_user = request.user
                         quest = Question.objects.get(level = request.user.game_user.level)

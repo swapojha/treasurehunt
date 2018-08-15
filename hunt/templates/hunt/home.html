@@ -132,7 +132,7 @@
                 $('#id_answer').val('');
                 $.ajax({
                     url : "{% url 'answer_view' %}",
-                    type : "GET",
+                    type : "POST",
                     data : { answer : user_answer },
                     success : function(json){
                         // localStorage.setItem("json",json);
@@ -149,7 +149,7 @@
                 e.preventDefault();
                 window.location.reload();
                 // var res = localStorage.getItem('json');         
-                // success(res);
+                success(res);
             }
             function get_accessed_hints(){
                 $.ajax({
