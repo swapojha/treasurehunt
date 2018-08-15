@@ -147,8 +147,8 @@
             });
             window.onpopstate = function (e) {
                 e.preventDefault();
+                alert("Location reload");
                 window.location.reload();
-                console.log("calling reload");
                 var res = localStorage.getItem('json');         
                 success(res);
             }
