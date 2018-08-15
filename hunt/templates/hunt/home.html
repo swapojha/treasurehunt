@@ -86,11 +86,8 @@
     <script>
         $(function() {
             function success(json){
-                console.log(json);
-                console.log("success");
-                $('.btn-info').css('display','block');
-                $('.btn-info').addClass('top-space');
-                $('.loader').css('display','none');
+                // console.log(json);
+                // console.log("success");
                 if(json.blocked){
                     window.location.reload();
                 }
@@ -98,6 +95,9 @@
                     window.location.reload();
                 }
                 if(json.error){
+                    $('.btn-info').css('display','block');
+                    $('.btn-info').addClass('top-space');
+                    $('.loader').css('display','none');
                     var error_elem = '<div class="alert alert-danger"><strong>'+json.error+'</strong></div>';
                     $('.error').html(error_elem);
                     setTimeout(function(){
@@ -161,7 +161,6 @@
             $('.hint-btn').click(function(){
                 get_accessed_hints();
             });
-
             // This function gets cookie with a given name
             function getCookie(name) {
                 var cookieValue = null;
@@ -182,7 +181,6 @@
             /*
             The functions below will create a header with csrftoken
             */
-
             function csrfSafeMethod(method) {
                 // these HTTP methods do not require CSRF protection
                 return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
