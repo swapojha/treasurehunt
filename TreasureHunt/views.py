@@ -18,15 +18,26 @@ def rules(request):
     return render(request,'rules.html')
 
 def leaderboard(request):
-    # No need for user authentication
+    # Based on authentication
     game_users = GameUser.objects.filter(user__is_staff=False).order_by('-level','-score','timestamp')
+    top_50 = game_users[:50]
+    with_uid_self_user = None
+    if request.user.is_authenticated:
+        ranking = request.user.game_user.ranking
+        if ranking > 50:
+            with_uid_self_user = []
+            with_uid_self_user.append({
+                'ranking':ranking,
+                'guser':request.user.game_user,
+                'uid':request.user.social_auth.get(provider='facebook').uid
+            })   
     with_uid_game_users = []
-    for game_user in game_users:
+    for game_user in top_50:
         with_uid_game_users.append({
             'guser':game_user,
             'uid':game_user.user.social_auth.get(provider='facebook').uid,
         })
-    return render(request,'leaderboard.html',{'gameusers':with_uid_game_users})
+    return render(request,'leaderboard.html',{'top_50':with_uid_game_users,'self_user':with_uid_self_user})
 
 def homepage_view(request):
     if request.user.is_authenticated:
