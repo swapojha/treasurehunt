@@ -23,7 +23,7 @@ def leaderboard(request):
     top_50 = game_users[:50]
     with_uid_self_user = None
     if request.user.is_authenticated:
-        ranking = request.user.game_user.ranking
+        ranking = request.user.game_user.ranking()
         if ranking > 50:
             with_uid_self_user = []
             with_uid_self_user.append({
