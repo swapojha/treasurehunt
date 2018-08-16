@@ -21,11 +21,17 @@ class GameUser(models.Model):
     total_attempts = models.IntegerField(default=0)
     last_attempt = models.DateTimeField(null=True)
     timeout_attempts = models.IntegerField(default=0)
+    
     def levelup(self,ques_score,timestamp,attempts):
         self.level+=1
         self.score+=ques_score
         self.timestamp=timestamp
         self.total_attempts+=attempts
+    
+    def ranking(self):
+        aggregate = GameUser.objects.filter(user__is_staff=False,level__gt=self.level,score__gt=self.score,timestamp__lt=self.timestamp).aggregate(ranking=Count('score'))
+        return aggregate['ranking'] + 1
+    
     def __str__(self):
         return "User: "+str(self.user.username)+" Level: "+str(self.level)
 
