@@ -51,7 +51,8 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     #'login.middleware.OneSessionPerUserMiddleware',
-    'hunt.middleware.SocialAuthExceptionMiddleware',
+    'social.apps.django_app.middleware.SocialAuthExceptionMiddleware',
+    # 'hunt.middleware.SocialAuthExceptionMiddleware',
 ]
 
 AUTHENTICATION_BACKENDS = (
@@ -88,7 +89,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'TreasureHunt.wsgi.application'
 LOGIN_REDIRECT_URL = 'home'
-LOGIN_ERROR_URL = ''
+LOGIN_ERROR_URL = '/'
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 
