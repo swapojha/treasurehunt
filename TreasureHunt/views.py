@@ -25,6 +25,7 @@ def leaderboard(request):
     with_uid_self_user = None
     if request.user.is_authenticated:
         ranking = request.user.game_user.ranking()
+        with_uid_self_user = []
         with_uid_self_user.append({
             'ranking':ranking,
             'guser':request.user.game_user,
