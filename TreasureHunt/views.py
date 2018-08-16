@@ -25,13 +25,18 @@ def leaderboard(request):
     with_uid_self_user = None
     if request.user.is_authenticated:
         ranking = request.user.game_user.ranking()
-        if ranking > number_of_top_user:
-            with_uid_self_user = []
-            with_uid_self_user.append({
-                'ranking':ranking,
-                'guser':request.user.game_user,
-                'uid':request.user.social_auth.get(provider='facebook').uid
-            })   
+        with_uid_self_user.append({
+            'ranking':ranking,
+            'guser':request.user.game_user,
+            'uid':request.user.social_auth.get(provider='facebook').uid
+        })
+        # if ranking > number_of_top_user:
+        #     with_uid_self_user = []
+        #     with_uid_self_user.append({
+        #         'ranking':ranking,
+        #         'guser':request.user.game_user,
+        #         'uid':request.user.social_auth.get(provider='facebook').uid
+        #     })   
     with_uid_game_users = []
     for game_user in top_50:
         with_uid_game_users.append({
