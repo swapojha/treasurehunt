@@ -2,9 +2,9 @@ from django.contrib.sessions.models import Session
 from .models import LoggedInUser
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
-from social.apps.django_app.middleware import SocialAuthExceptionMiddleware
+from social_django.apps.django_app.middleware import SocialAuthExceptionMiddleware
 from django.shortcuts import HttpResponse
-from social import exceptions as social_exceptions
+from social_django import exceptions as social_exceptions
 
 # class OneSessionPerUserMiddleware:
 #     #Called only once when the web server starts
