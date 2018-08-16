@@ -30,8 +30,8 @@ class GameUser(models.Model):
         self.total_attempts+=attempts
     
     def ranking(self):
-        aggregate = GameUser.objects.filter(user__is_staff=False,level__gt=self.level,score__gt=self.score,timestamp__lt=self.timestamp).aggregate(ranking=Count('score'))
-        return aggregate['ranking'] + 1
+        rank = GameUser.objects.filter(user__is_staff=False,level__gt=self.level,score__gt=self.score,timestamp__lt=self.timestamp).count()
+        return rank + 1
     
     def __str__(self):
         return "User: "+str(self.user.username)+" Level: "+str(self.level)
