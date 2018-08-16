@@ -2,6 +2,10 @@ from django.contrib.sessions.models import Session
 from .models import LoggedInUser
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
+from social.apps.django_app.middleware import SocialAuthExceptionMiddleware
+from django.shortcuts import HttpResponse
+from social import exceptions as social_exceptions
+
 class OneSessionPerUserMiddleware:
     #Called only once when the web server starts
     def __init__(self, get_response):
@@ -29,3 +33,10 @@ class OneSessionPerUserMiddleware:
         # For this tutorial, we're not adding any code so we just return the response
 
         return response
+
+class SocialAuthExceptionMiddleware(SocialAuthExceptionMiddleware):
+    def process_exception(self, request, exception):
+        if hasattr(social_exceptions, 'AuthCanceled'):
+            return HttpResponse("I'm the Pony %s" % exception)
+        else:
+            raise exception
