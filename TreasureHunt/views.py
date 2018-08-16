@@ -19,12 +19,13 @@ def rules(request):
 
 def leaderboard(request):
     # Based on authentication
+    number_of_top_user = 1
     game_users = GameUser.objects.filter(user__is_staff=False).order_by('-level','-score','timestamp')
-    top_50 = game_users[:50]
+    top_50 = game_users[:number_of_top_user]
     with_uid_self_user = None
     if request.user.is_authenticated:
         ranking = request.user.game_user.ranking()
-        if ranking > 50:
+        if ranking > number_of_top_user:
             with_uid_self_user = []
             with_uid_self_user.append({
                 'ranking':ranking,
