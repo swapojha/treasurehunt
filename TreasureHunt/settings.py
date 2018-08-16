@@ -87,7 +87,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'TreasureHunt.wsgi.application'
 LOGIN_REDIRECT_URL = 'home'
-
+LOGIN_ERROR_URL = ''
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 

@@ -117,7 +117,7 @@
                 event.preventDefault();
                 console.log("Form submitted");
                 $('.btn-info').css('display','none');
-                var user_answer = $('#id_answer').val();
+                var user_answer = $('#id_answer').val().substring(0,50);
                 $('#id_answer').val('');
                 $.ajax({
                     url : "{% url 'answer_view' %}",
