@@ -84,7 +84,7 @@ def available_hints(request):
     diff_in_minutes = time_delta.total_seconds()/60
     hint_array = {
         'hints':[],
-        'custom_info':'No hints avaliable as of now',
+        'custom_info':'No hints available as of now',
     }
     if diff_in_minutes > seventh_hint_time:
         #show first four hints
