@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone 
+from django.db.models import Count
 # Create your models here.
 
 # Model to store the list of logged in users
