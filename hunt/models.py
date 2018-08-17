@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone 
 from django.db.models import Count
+from django.db.models.signals import post_init
 # Create your models here.
 
 # Model to store the list of logged in users
@@ -13,6 +14,7 @@ class LoggedInUser(models.Model):
     def __str__(self):
         return "User: "+self.user.username
 
+
 class GameUser(models.Model):
     user = models.OneToOneField(User, related_name="game_user",on_delete=models.CASCADE)
     level = models.PositiveSmallIntegerField(default=1)
@@ -22,9 +24,6 @@ class GameUser(models.Model):
     total_attempts = models.IntegerField(default=0)
     last_attempt = models.DateTimeField(null=True)
     timeout_attempts = models.IntegerField(default=0)
-
-    def __init__(self):
-        self.timestamp = timezone.now()
     
     def levelup(self,ques_score,timestamp,attempts):
         self.level+=1
@@ -40,6 +39,12 @@ class GameUser(models.Model):
     
     def __str__(self):
         return "User: "+str(self.user.username)+" Level: "+str(self.level)
+
+def extraInitForMyModel(**kwargs):
+   instance = kwargs.get('instance')
+   instance.timestamp = timezone.now()
+
+post_init.connect(extraInitForMyModel, GameUser)
 
 class Question(models.Model):
     level = models.PositiveSmallIntegerField(default=1)
