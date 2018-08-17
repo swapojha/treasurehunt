@@ -79,7 +79,7 @@ def available_hints(request):
     fifth_hint_time = 50
     sixth_hint_time = 60
     seventh_hint_time = 70
-    
+
     custom_info = 'No more hints available as of now.'
     hints_finished_info = 'No more hints available for this question'
     user = request.user.game_user
@@ -422,14 +422,14 @@ class hunt_view(object):
                             'level': None
                         }
                         user_data['error'] = get_random_error_message()
-                        return JsonResponse(user_data)    
+                        return JsonResponse(user_data)
                         # messages.error(request, get_random_error_message())
                         # return HttpResponseRedirect('/hunt')
             else:
-                messages.info(request, 'Invalid url')    
-                return HttpResponseRedirect('/')    
+                messages.info(request, 'Invalid url')
+                return HttpResponseRedirect('/')
         else:
-            messages.info(request, 'You need to login first.')    
+            messages.info(request, 'You need to login first.')
             return HttpResponseRedirect('/')
 
     def get_hint(request):
