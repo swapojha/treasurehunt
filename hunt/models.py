@@ -14,7 +14,6 @@ class LoggedInUser(models.Model):
     def __str__(self):
         return "User: "+self.user.username
 
-
 class GameUser(models.Model):
     user = models.OneToOneField(User, related_name="game_user",on_delete=models.CASCADE)
     level = models.PositiveSmallIntegerField(default=1)
@@ -24,31 +23,13 @@ class GameUser(models.Model):
     total_attempts = models.IntegerField(default=0)
     last_attempt = models.DateTimeField(null=True)
     timeout_attempts = models.IntegerField(default=0)
-    
     def levelup(self,ques_score,timestamp,attempts):
         self.level+=1
         self.score+=ques_score
-        self.last_attempt=timestamp
+        self.timestamp=timestamp
         self.total_attempts+=attempts
-    
-    def ranking(self):
-        rank_one = GameUser.objects.filter(user__is_staff=False,level__gt=self.level).count()
-        rank_two = GameUser.objects.filter(user__is_staff=False,level=self.level,score__gt=self.score).count()
-        rank_three = 0
-        if self.level == 1:
-            rank_three = GameUser.objects.filter(user__is_staff=False,level=self.level,score=self.score,timestamp__lt=self.timestamp).count()
-        else:
-            rank_three = GameUser.objects.filter(user__is_staff=False,level=self.level,score=self.score,last_attempt__lt=self.last_attempt).count()
-        return rank_one + rank_two + rank_three + 1
-    
     def __str__(self):
         return "User: "+str(self.user.username)+" Level: "+str(self.level)
-
-def extraInitForMyModel(**kwargs):
-   instance = kwargs.get('instance')
-   instance.timestamp = timezone.now()
-
-post_init.connect(extraInitForMyModel, GameUser)
 
 class Question(models.Model):
     level = models.PositiveSmallIntegerField(default=1)
