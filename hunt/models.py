@@ -3,7 +3,6 @@ from django.contrib.auth.models import User
 from django.utils import timezone 
 from django.db.models import Count
 from django.db.models.signals import post_init
-from datetime import datetime,timedelta
 # Create your models here.
 
 # Model to store the list of logged in users
@@ -37,18 +36,17 @@ class GameUser(models.Model):
         rank_two = GameUser.objects.filter(user__is_staff=False,level=self.level,score__gt=self.score).count()
         rank_three = 0
         if self.level == 1:
-            rank_three = GameUser.objects.filter(user__is_staff=False,level=self.level,score=self.score,timestamp__lt=self.timestamp+timedelta(minutes=5)).count()
+            rank_three = GameUser.objects.filter(user__is_staff=False,level=self.level,score=self.score,timestamp__lt=self.timestamp).count()
         else:
-            rank_three = GameUser.objects.filter(user__is_staff=False,level=self.level,score=self.score,last_attempt__lt=self.last_attempt+timedelta(minutes=5)).count()
+            rank_three = GameUser.objects.filter(user__is_staff=False,level=self.level,score=self.score,last_attempt__lt=self.last_attempt).count()
         return rank_one + rank_two + rank_three + 1
     
     def __str__(self):
         return "User: "+str(self.user.username)+" Level: "+str(self.level)
 
 def extraInitForMyModel(**kwargs):
-    instance = kwargs.get('instance')
-    if not instance.timestamp:
-        instance.timestamp = timezone.now()
+   instance = kwargs.get('instance')
+   instance.timestamp = timezone.now()
 
 post_init.connect(extraInitForMyModel, GameUser)
 
