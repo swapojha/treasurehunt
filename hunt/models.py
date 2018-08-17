@@ -45,7 +45,7 @@ class GameUser(models.Model):
         return "User: "+str(self.user.username)+" Level: "+str(self.level)
 
 def extraInitForMyModel(**kwargs):
-   instance = kwargs.get('instance')
+    instance = kwargs.get('instance')
     if not instance.timestamp:
         instance.timestamp = timezone.now()
 
