@@ -45,7 +45,7 @@
                 </video>
             {% endif %}
             {% if question.ques_type == "image" %}
-                <img class="img-responsive" id="img-ques" src="{{ question.link }}"/>
+                <img class="img-fluid" id="img-ques" src="{{ question.link }}"/>
             {% endif %}
         </div>
     </div>
@@ -125,13 +125,13 @@
                     data : { answer : user_answer },
                     success : function(json){
                         localStorage.setItem("json",json);
-                        success(json);       
+                        success(json);
                     },
                     error : function(xhr,errmsg,err) {
                         $('#results').html("<div class='alert alert-danger radius' data-alert>Oops! We have encountered an error: "+errmsg+
                             " <a href='#' class='close'>&times;</a></div>"); // add the error to the dom
                         // console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
-                    } 
+                    }
                 })
             });
             function get_accessed_hints(){
