@@ -46,7 +46,8 @@ class GameUser(models.Model):
 
 def extraInitForMyModel(**kwargs):
    instance = kwargs.get('instance')
-   instance.timestamp = timezone.now()
+    if not instance.timestamp:
+        instance.timestamp = timezone.now()
 
 post_init.connect(extraInitForMyModel, GameUser)
 
