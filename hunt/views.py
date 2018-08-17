@@ -72,13 +72,13 @@ def available_hints(request):
     # fifth_hint_time = 50
     # sixth_hint_time = 60
     # seventh_hint_time = 70
-    first_hint_time = 1
-    second_hint_time = 1
-    third_hint_time = 1
-    fourth_hint_time = 1
-    fifth_hint_time = 1
-    sixth_hint_time = 1
-    seventh_hint_time = 1
+    first_hint_time = 10
+    second_hint_time = 20
+    third_hint_time = 30
+    fourth_hint_time = 40
+    fifth_hint_time = 50
+    sixth_hint_time = 60
+    seventh_hint_time = 70
     
     custom_info = 'No more hints available as of now.'
     hints_finished_info = 'No more hints available for this question'

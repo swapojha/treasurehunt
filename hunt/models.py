@@ -28,7 +28,7 @@ class GameUser(models.Model):
     def levelup(self,ques_score,timestamp,attempts):
         self.level+=1
         self.score+=ques_score
-        self.timestamp=timestamp
+        self.last_attempt=timestamp
         self.total_attempts+=attempts
     
     def ranking(self):
@@ -42,7 +42,7 @@ class GameUser(models.Model):
 
 def extraInitForMyModel(**kwargs):
    instance = kwargs.get('instance')
-   instance.timestamp = timezone.now()
+   instance.last_attempt = timezone.now()
 
 post_init.connect(extraInitForMyModel, GameUser)
 
