@@ -24,7 +24,7 @@ class GameUser(models.Model):
     timeout_attempts = models.IntegerField(default=0)
 
     def __init__(self):
-        timestamp = timezone.now()
+        self.timestamp = timezone.now()
     
     def levelup(self,ques_score,timestamp,attempts):
         self.level+=1
