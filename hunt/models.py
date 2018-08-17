@@ -36,9 +36,9 @@ class GameUser(models.Model):
         rank_two = GameUser.objects.filter(user__is_staff=False,level=self.level,score__gt=self.score).count()
         rank_three = 0
         if self.level == 1:
-            rank_three = GameUser.objects.filter(user__is_staff=False,level=self.level,score=self.score,timestamp__gt=self.timestamp).count()
+            rank_three = GameUser.objects.filter(user__is_staff=False,level=self.level,score=self.score,timestamp__lt=self.timestamp).count()
         else:
-            rank_three = GameUser.objects.filter(user__is_staff=False,level=self.level,score=self.score,last_attempt__gt=self.last_attempt).count()
+            rank_three = GameUser.objects.filter(user__is_staff=False,level=self.level,score=self.score,last_attempt__lt=self.last_attempt).count()
         return rank_one + rank_two + rank_three + 1
     
     def __str__(self):
