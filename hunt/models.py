@@ -30,7 +30,7 @@ class GameUser(models.Model):
         self.total_attempts+=attempts
     
     def ranking(self):
-        rank_one = GameUser.objects.filter(user__is_staff=False,level__gt=self.level,score__gt=self.score,timestamp__lt=self.timestamp).count()
+        rank_one = GameUser.objects.filter(user__is_staff=False,level__gt=self.level).count()
         rank_two = GameUser.objects.filter(user__is_staff=False,level=self.level,score__gt=self.score).count()
         rank_three = GameUser.objects.filter(user__is_staff=False,level=self.level,score=self.score,timestamp__lt=self.timestamp).count()
         return rank_one + rank_two + rank_three + 1
