@@ -9,43 +9,7 @@
       </div>
       <div class="row">
           <div class="col-12">
-            {% if self_user %}
-            <table class="table table-hover table-dark">
-              <thead>
-                <tr>
-                  <th scope="col">Rank</th>
-                  <th scope="col"></th>
-                  <th scope="col">You</th>
-                  <th scope="col">Level</th>
-                  <th scope="col">Score</th>
-                  <!-- <th scope="col">Time</th> -->
-                </tr>
-              </thead>  
-              {% for gameuser in self_user %}
-              <tbody>
-                  <tr>
-                      <th scope="row">
-                          {{ gameuser.ranking }}
-                      </th>
-                      <td>
-                          <img class="img-fluid" src="https://graph.facebook.com/{{ gameuser.uid }}/picture?type=square" alt='{{ request.user.first_name }}'/>
-                      </td>
-                      <td>{{ gameuser.guser.user.first_name }}&nbsp;{{ gameuser.guser.user.last_name }}</td>
-                      <td>{{ gameuser.guser.level }}</td>
-                      <td>{{ gameuser.guser.score }}</td>
-                      <!-- {% if gameuser.guser.timestamp %}
-                          <td>{{ gameuser.guser.timestamp }}</td>
-                      {% else %}
-                      <td>--</td>
-                      {% endif %} -->
-                  </tr>
-              </tbody>
-              {% endfor %}
-              </table>
-              {% endif %}
-              <br>
-              <br>
-              {% if top_50 %}
+              {% if gameusers %}
               <table class="table table-hover table-dark">
                     <thead>
                       <tr>
@@ -57,7 +21,7 @@
                         <!-- <th scope="col">Time</th> -->
                       </tr>
                     </thead>  
-                {% for gameuser in top_50 %}
+                {% for gameuser in gameusers %}
                 <tbody>
                     <tr>
                         <th scope="row">
@@ -79,8 +43,6 @@
                 {% endfor %}
                 </table>
               {% endif %}
-              <br>
-              <br>
           </div>
       </div>
   </div>
